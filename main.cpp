@@ -1,14 +1,16 @@
 #define STB_IMAGE_IMPLEMENTATION
 
-#include "stb_image.h"
+#include <stb_image.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <tigl.h>
-#include "modules/fpscam/include/FpsCam.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <cmath>
 #include <random>
+
+#include "FpsCam.h"
+
 
 using tigl::Vertex;
 
@@ -22,8 +24,9 @@ void draw();
 
 void addCube();
 
-GLuint createTexture(char *textureFile);
+GLuint createTexture(const char *textureFile);
 
+GLuint loadTexture(const char *textureFile);
 
 int main() {
     if (!glfwInit())
@@ -104,9 +107,13 @@ void draw() {
 
     tigl::shader->setProjectionMatrix(projection);
     tigl::shader->setViewMatrix(camera->getMatrix());
-    tigl::shader->enableColor(true);
+    //tigl::shader->enableColor(true);
 
+
+    auto texture = loadTexture(R"(..\resource\textures\leather.png)");
+    glBindTexture(GL_TEXTURE_2D, texture);
     glEnable(GL_DEPTH_TEST);
+    tigl::shader->enableTexture(true);
 
 
     glm::mat4 cubeModelMatrix = glm::mat4(1.0f);
@@ -183,12 +190,11 @@ void addCube() {
 }
 
 
-GLuint createTexture(char *textureFile) {
+GLuint createTexture(const char *textureFile) {
 
     std::random_device rd;
     std::mt19937 mt(rd());
     std::uniform_int_distribution<unsigned char> dist(0, 255);
-
 
     GLuint textureId = 0;
     glGenTextures(1, &textureId);
@@ -211,6 +217,22 @@ GLuint createTexture(char *textureFile) {
     return textureId;
 }
 
+GLuint loadTexture(const char *textureFile) {
+    int width, height, bpp;
+    auto *imgData = stbi_load(textureFile, &width, &height, &bpp, 4);
+
+    GLuint textureId = 0;
+    glGenTextures(1, &textureId);
+    glBindTexture(GL_TEXTURE_2D, textureId);
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
+    stbi_image_free(imgData);
+
+    return textureId;
+}
 
 
 
