@@ -9,12 +9,14 @@
 
 struct GLFWwindow;
 
-class FpsCam {
+class FpsCam
+{
 public:
-    FpsCam(GLFWwindow*);
+    explicit FpsCam(GLFWwindow *);
 
     glm::mat4 getMatrix();
-    void update(GLFWwindow*);
+
+    void update(GLFWwindow *);
 
 private:
     glm::vec3 position = glm::vec3(0, 0, 0);

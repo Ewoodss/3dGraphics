@@ -24,7 +24,7 @@ void draw();
 
 void addCube();
 
-GLuint createTexture(const char *textureFile);
+GLuint createTexture();
 
 GLuint loadTexture(const char *textureFile);
 
@@ -125,7 +125,17 @@ void draw()
     tigl::shader->setViewMatrix(camera->getMatrix());
     tigl::shader->enableColor(true);
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
-    //tigl::shader->enableLighting(true);
+    tigl::shader->enableLighting(true);
+    tigl::shader->setLightCount(1);
+    tigl::shader->setLightDirectional(0, true);
+    tigl::shader->setLightPosition(0, glm::vec3(1, 2, 3));
+
+    tigl::shader->setLightAmbient(0, glm::vec3(0.1f, 0.1f, 0.15f));
+    tigl::shader->setLightDiffuse(0, glm::vec3(0.8f, 0.8f, 0.8f));
+    tigl::shader->setLightSpecular(0, glm::vec3(0, 0, 0));
+    tigl::shader->setShinyness(32.0f);
+
+
     //glBindTexture(GL_TEXTURE_2D, texture);
     //tigl::shader->enableTexture(true);
     glEnable(GL_DEPTH_TEST);
@@ -188,7 +198,7 @@ void addCube()
 }
 
 
-GLuint createTexture(const char *textureFile)
+GLuint createTexture()
 {
 
     std::random_device rd;

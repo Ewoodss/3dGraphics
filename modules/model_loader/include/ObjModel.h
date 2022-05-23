@@ -53,7 +53,7 @@ private:
     void loadMaterialFile(const std::string &fileName, const std::string &dirName);
 
 public:
-    ObjModel(const std::string &filename);
+    explicit ObjModel(const std::string &filename);
 
     ~ObjModel();
 

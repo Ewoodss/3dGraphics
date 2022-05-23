@@ -112,13 +112,16 @@ ObjModel::ObjModel(const std::string &fileName)
         params[0] = toLower(params[0]);
 
         if (params[0] == "v")
-            vertices.emplace_back((float) atof(params[1].c_str()), (float) atof(params[2].c_str()),
-                                  (float) atof(params[3].c_str()));
+            vertices.emplace_back(strtof(params[1].c_str(), nullptr),
+                                  strtof(params[2].c_str(), nullptr),
+                                  strtof(params[3].c_str(), nullptr));
         else if (params[0] == "vn")
-            normals.emplace_back((float) atof(params[1].c_str()), (float) atof(params[2].c_str()),
-                                 (float) atof(params[3].c_str()));
+            normals.emplace_back(strtof(params[1].c_str(), nullptr),
+                                 strtof(params[2].c_str(), nullptr),
+                                 strtof(params[3].c_str(), nullptr));
         else if (params[0] == "vt")
-            texcoords.emplace_back((float) atof(params[1].c_str()), (float) atof(params[2].c_str()));
+            texcoords.emplace_back(strtof(params[1].c_str(), nullptr),
+                                   strtof(params[2].c_str(), nullptr));
         else if (params[0] == "f")
         {
             for (size_t ii = 4; ii <= params.size(); ii++)
@@ -130,14 +133,14 @@ ObjModel::ObjModel(const std::string &fileName)
                     Vertex vertex{};
                     std::vector<std::string> indices = split(params[i == (ii - 3) ? 1 : i], "/");
                     if (!indices.empty())    //er is een positie
-                        vertex.position = atoi(indices[0].c_str()) - 1;
+                        vertex.position = strtol(indices[0].c_str(), nullptr, 10) - 1;
                     if (indices.size() == 2)        //alleen texture
-                        vertex.texcoord = atoi(indices[1].c_str()) - 1;
+                        vertex.texcoord = strtol(indices[1].c_str(), nullptr, 10) - 1;
                     if (indices.size() == 3)        //v/t/n of v//n
                     {
                         if (!indices[1].empty())
-                            vertex.texcoord = atoi(indices[1].c_str()) - 1;
-                        vertex.normal = atoi(indices[2].c_str()) - 1;
+                            vertex.texcoord = strtol(indices[1].c_str(), nullptr, 10) - 1;
+                        vertex.normal = strtol(indices[2].c_str(), nullptr, 10) - 1;
                     }
                     face.vertices.push_back(vertex);
                 }
@@ -173,8 +176,7 @@ ObjModel::ObjModel(const std::string &fileName)
 
 
 ObjModel::~ObjModel()
-{
-}
+= default;
 
 
 void ObjModel::draw()
@@ -246,7 +248,10 @@ void ObjModel::loadMaterialFile(const std::string &fileName, const std::string &
             if (tex.find('\\'))
                 tex = tex.substr(tex.rfind('\\') + 1);
             //TODO
-            if (currentMaterial != nullptr) currentMaterial->texture = new Texture(dirName + "/" + tex);
+            if (currentMaterial != nullptr)
+            {
+                currentMaterial->texture = new Texture(tex.append(dirName).append("/").append(tex));
+            }
         } else if (params[0] == "kd")
         {
             //TODO, diffuse color
