@@ -9,21 +9,25 @@
 class Texture;
 
 
-class ObjModel {
+class ObjModel
+{
 private:
-    class Vertex {
+    class Vertex
+    {
     public:
         int position;
         int normal;
         int texcoord;
     };
 
-    class Face {
+    class Face
+    {
     public:
         std::list<Vertex> vertices;
     };
 
-    class MaterialInfo {
+    class MaterialInfo
+    {
     public:
         MaterialInfo();
 
@@ -31,7 +35,8 @@ private:
         Texture *texture;
     };
 
-    class ObjGroup {
+    class ObjGroup
+    {
     public:
         std::string name;
         int materialIndex;
@@ -50,7 +55,7 @@ private:
 public:
     ObjModel(const std::string &filename);
 
-    ~ObjModel(void);
+    ~ObjModel();
 
     void draw();
 };

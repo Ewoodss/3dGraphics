@@ -28,7 +28,8 @@ GLuint createTexture(const char *textureFile);
 
 GLuint loadTexture(const char *textureFile);
 
-int main() {
+int main()
+{
     if (!glfwInit())
         throw std::runtime_error("Could not initialize GLFW");
 
@@ -36,20 +37,23 @@ int main() {
     glfwGetMonitors(&count);
 
     window = glfwCreateWindow(854, 480, "hello world", nullptr, nullptr);
-    if (count > 1) {
+    if (count > 1)
+    {
         glfwSetWindowMonitor(window, nullptr, 1000, -600, 854, 480, GLFW_DONT_CARE);
     }
     // get resolution of monitor
 
 
-    if (!window) {
+    if (!window)
+    {
         glfwTerminate();
         throw std::runtime_error("Could not initialize GLFW");
     }
 
     glfwMakeContextCurrent(window);
 
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
+    {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
@@ -58,7 +62,8 @@ int main() {
     tigl::init();
     init();
 
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(window))
+    {
         update();
         draw();
         glfwSwapBuffers(window);
@@ -75,10 +80,12 @@ int main() {
 FpsCam *camera;
 GLuint texture;
 
-void init() {
+void init()
+{
     int value[10];
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, value);
-    glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
+    glfwSetKeyCallback(window, [](GLFWwindow *window, int key, int scancode, int action, int mods)
+    {
         if (key == GLFW_KEY_ESCAPE)
             glfwSetWindowShouldClose(window, true);
     });
@@ -93,16 +100,19 @@ void init() {
 
 float rotation = 0.0f;
 
-void update() {
+void update()
+{
     camera->update(window);
     rotation = (0.001f + rotation);
-    if (rotation > 2 * 3.1415) {
+    if (rotation > 2 * 3.1415)
+    {
         rotation = 0.0f;
     }
 
 }
 
-void draw() {
+void draw()
+{
     glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -115,7 +125,7 @@ void draw() {
     tigl::shader->setViewMatrix(camera->getMatrix());
     tigl::shader->enableColor(true);
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
-
+    //tigl::shader->enableLighting(true);
     //glBindTexture(GL_TEXTURE_2D, texture);
     //tigl::shader->enableTexture(true);
     glEnable(GL_DEPTH_TEST);
@@ -124,7 +134,7 @@ void draw() {
     model->draw();
 
     //tigl::shader->setModelMatrix(glm::mat4(1.0f));
-
+    tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::begin(GL_TRIANGLES);
 
     tigl::addVertex(Vertex::PC(glm::vec3(-10, -1, -10), glm::vec4(1, 1, 1, 1)));
@@ -139,7 +149,8 @@ void draw() {
 }
 
 
-void addCube() {
+void addCube()
+{
     tigl::begin(GL_QUADS);
     glm::vec3 offsetVector = glm::vec3(-0.5, -0.5, -0.5); //used for anchor correction
     //front face
@@ -177,7 +188,8 @@ void addCube() {
 }
 
 
-GLuint createTexture(const char *textureFile) {
+GLuint createTexture(const char *textureFile)
+{
 
     std::random_device rd;
     std::mt19937 mt(rd());
