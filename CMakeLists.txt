@@ -16,13 +16,16 @@ add_subdirectory(libs/tigl)
 add_subdirectory(libs/stb_image)
 
 include_directories("modules/fpscam/include")
+include_directories("modules/model_loader/include")
 
 add_subdirectory(modules/fpscam)
+add_subdirectory(modules/model_loader)
 
 
 add_executable(${CMAKE_PROJECT_NAME} main.cpp)
 
 target_link_libraries(${CMAKE_PROJECT_NAME} fpscam)
+target_link_libraries(${CMAKE_PROJECT_NAME} model_loader)
 
 target_link_libraries(${CMAKE_PROJECT_NAME} glfw)
 target_link_libraries(${CMAKE_PROJECT_NAME} glm)

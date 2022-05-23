@@ -1,6 +1,3 @@
-#define STB_IMAGE_IMPLEMENTATION
-
-#include <stb_image.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <tigl.h>
@@ -9,12 +6,15 @@
 #include <cmath>
 #include <random>
 
+
 #include "FpsCam.h"
+#include "ObjModel.h"
 
 
 using tigl::Vertex;
 
 GLFWwindow *window;
+ObjModel *model;
 
 void init();
 
@@ -73,6 +73,7 @@ int main() {
 
 
 FpsCam *camera;
+GLuint texture;
 
 void init() {
     int value[10];
@@ -82,6 +83,11 @@ void init() {
             glfwSetWindowShouldClose(window, true);
     });
     camera = new FpsCam(window);
+
+
+    //todo this is stupid should be done outside of loop
+    //texture = loadTexture(R"(..\resource\textures\leather.png)");
+    model = new ObjModel("../resource/models/car/honda_jazz.obj");
 }
 
 
@@ -107,36 +113,17 @@ void draw() {
 
     tigl::shader->setProjectionMatrix(projection);
     tigl::shader->setViewMatrix(camera->getMatrix());
-    //tigl::shader->enableColor(true);
-
-
-    auto texture = loadTexture(R"(..\resource\textures\leather.png)");
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glEnable(GL_DEPTH_TEST);
-    tigl::shader->enableTexture(true);
-
-
-    glm::mat4 cubeModelMatrix = glm::mat4(1.0f);
-    cubeModelMatrix = glm::translate(cubeModelMatrix, glm::vec3(0, 0, 0));
-    cubeModelMatrix = glm::rotate(cubeModelMatrix, rotation, glm::vec3(1, 0, 0));
-    tigl::shader->setModelMatrix(cubeModelMatrix);
-    addCube();
-
-
-    cubeModelMatrix = glm::mat4(1.0f);
-    cubeModelMatrix = glm::translate(cubeModelMatrix, glm::vec3(2, 0, 0));
-    cubeModelMatrix = glm::rotate(cubeModelMatrix, rotation, glm::vec3(0, 1, 0));
-    tigl::shader->setModelMatrix(cubeModelMatrix);
-    addCube();
-
-    cubeModelMatrix = glm::mat4(1.0f);
-    cubeModelMatrix = glm::translate(cubeModelMatrix, glm::vec3(4, 0, 0));
-    cubeModelMatrix = glm::rotate(cubeModelMatrix, rotation, glm::vec3(0, 0, 1));
-    tigl::shader->setModelMatrix(cubeModelMatrix);
-    addCube();
-
-
+    tigl::shader->enableColor(true);
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
+
+    //glBindTexture(GL_TEXTURE_2D, texture);
+    //tigl::shader->enableTexture(true);
+    glEnable(GL_DEPTH_TEST);
+
+    glPointSize(10.0f);
+    model->draw();
+
+    //tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
     tigl::begin(GL_TRIANGLES);
 
@@ -183,8 +170,8 @@ void addCube() {
     //top face
     tigl::addVertex(Vertex::PTC(glm::vec3(0, 1, 0) + offsetVector, glm::vec2(0, 0), glm::vec4(1, 1, 0, 1))); //4
     tigl::addVertex(Vertex::PTC(glm::vec3(1, 1, 0) + offsetVector, glm::vec2(1, 0), glm::vec4(1, 1, 0, 1))); //3
-    tigl::addVertex(Vertex::PTC(glm::vec3(1, 1, 1) + offsetVector, glm::vec2(1, 0), glm::vec4(1, 1, 0, 1))); //7
-    tigl::addVertex(Vertex::PTC(glm::vec3(0, 1, 1) + offsetVector, glm::vec2(0, 0), glm::vec4(1, 1, 0, 1))); //8
+    tigl::addVertex(Vertex::PTC(glm::vec3(1, 1, 1) + offsetVector, glm::vec2(1, 1), glm::vec4(1, 1, 0, 1))); //7
+    tigl::addVertex(Vertex::PTC(glm::vec3(0, 1, 1) + offsetVector, glm::vec2(0, 1), glm::vec4(1, 1, 0, 1))); //8
 
     tigl::end();
 }
@@ -217,22 +204,22 @@ GLuint createTexture(const char *textureFile) {
     return textureId;
 }
 
-GLuint loadTexture(const char *textureFile) {
-    int width, height, bpp;
-    auto *imgData = stbi_load(textureFile, &width, &height, &bpp, 4);
-
-    GLuint textureId = 0;
-    glGenTextures(1, &textureId);
-    glBindTexture(GL_TEXTURE_2D, textureId);
-
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
-    stbi_image_free(imgData);
-
-    return textureId;
-}
+//GLuint loadTexture(const char *textureFile) {
+//    int width, height, bpp;
+//    auto *imgData = stbi_load(textureFile, &width, &height, &bpp, 4);
+//
+//    GLuint textureId = 0;
+//    glGenTextures(1, &textureId);
+//    glBindTexture(GL_TEXTURE_2D, textureId);
+//
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
+//    stbi_image_free(imgData);
+//
+//    return textureId;
+//}
 
 
 
