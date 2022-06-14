@@ -5,13 +5,19 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <unordered_map>
+#include <memory>
+#include <tigl.h>
 
 class Texture;
-
 
 class ObjModel
 {
 private:
+    inline static std::unordered_map<std::string, ObjModel *> modelCache;
+
+    explicit ObjModel(const std::string &filename);
+
     class Vertex
     {
     public:
@@ -41,8 +47,8 @@ private:
         std::string name;
         int materialIndex;
         std::list<Face> faces;
+        std::shared_ptr<tigl::VBO> vbo;
     };
-
 
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec3> normals;
@@ -52,11 +58,29 @@ private:
 
     void loadMaterialFile(const std::string &fileName, const std::string &dirName);
 
-public:
-    explicit ObjModel(const std::string &filename);
+    void MakeVbo();
 
+
+    void fillDrawables();
+
+public:
     ~ObjModel();
 
-    void draw();
+    static ObjModel *getObjModel(const std::string &filename);
+
+    void Draw();
+
+    struct Drawable
+    {
+        std::shared_ptr<tigl::VBO> vbo;
+        GLuint textureId;
+    };
+
+    const std::vector<Drawable> &getDrawables() const;
+
+private:
+    std::vector<Drawable> drawables;
+
+
 };
 

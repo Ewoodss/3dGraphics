@@ -2,8 +2,7 @@
 // Created by Ewout on 12-5-2022.
 //
 
-#ifndef INC_3DGRAPHICS_FPSCAM_H
-#define INC_3DGRAPHICS_FPSCAM_H
+#pragma once
 
 #include "glm/glm.hpp"
 
@@ -24,6 +23,3 @@ private:
 
     void move(float angle, float fac);
 };
-
-
-#endif //INC_3DGRAPHICS_FPSCAM_H

@@ -172,6 +172,8 @@ ObjModel::ObjModel(const std::string &fileName)
         }
     }
     groups.push_back(currentGroup);
+
+    MakeVbo();
 }
 
 
@@ -179,7 +181,7 @@ ObjModel::~ObjModel()
 = default;
 
 
-void ObjModel::draw()
+void ObjModel::Draw()
 {
     //foreach group in groups
     //  set material texture, if available
@@ -189,24 +191,19 @@ void ObjModel::draw()
     //      emit vertex
 
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
-    tigl::begin(GL_TRIANGLES);
+    tigl::shader->enableTexture(true);
 
     for (const auto &group: groups)
     {
-        for (const auto &face: group->faces)
+        if (group->materialIndex != -1)
         {
-            for (const auto &vertex: face.vertices)
-            {
-                auto vertexPosition = this->vertices[vertex.position];
-                auto normalPosition = this->normals[vertex.normal];
-                auto texturePosition = this->texcoords[vertex.texcoord];
-                auto loadedVertex = tigl::Vertex::PTN(vertexPosition, texturePosition, normalPosition);
-                tigl::addVertex(loadedVertex);
-            }
+            auto texture = materials[group->materialIndex]->texture;
+            if (texture) texture->bind();
         }
-    }
 
-    tigl::end();
+        tigl::drawVertices(GL_TRIANGLES, group->vbo.get());
+    }
+    tigl::shader->enableTexture(false);
 }
 
 void ObjModel::loadMaterialFile(const std::string &fileName, const std::string &dirName)
@@ -250,7 +247,7 @@ void ObjModel::loadMaterialFile(const std::string &fileName, const std::string &
             //TODO
             if (currentMaterial != nullptr)
             {
-                currentMaterial->texture = new Texture(tex.append(dirName).append("/").append(tex));
+                currentMaterial->texture = new Texture(dirName + "/" + tex);
             }
         } else if (params[0] == "kd")
         {
@@ -284,9 +281,78 @@ void ObjModel::loadMaterialFile(const std::string &fileName, const std::string &
 
 }
 
+ObjModel *ObjModel::getObjModel(const std::string &fileName)
+{
+    std::cout << "opening model " << fileName << std::endl;
+    auto modelFound = modelCache.find(fileName);
+    ObjModel *model = nullptr;
+
+    if (modelFound != modelCache.end())
+    {
+        model = modelFound->second;
+    } else
+    {
+        model = new ObjModel(fileName);
+
+        modelCache.insert({fileName, model});
+    }
+
+    return model;
+}
+
+void ObjModel::MakeVbo()
+{
+    for (auto &objGroup: groups)
+    {
+        std::vector<tigl::Vertex> groupVertices;
+        for (const auto &face: objGroup->faces)
+        {
+
+            for (const auto &vertex: face.vertices)
+            {
+                auto vertexPosition = this->vertices[vertex.position];
+                auto normalPosition = this->normals[vertex.normal];
+                auto texturePosition = this->texcoords[vertex.texcoord];
+                auto loadedVertex = tigl::Vertex::PTN(vertexPosition, texturePosition, normalPosition);
+                groupVertices.push_back(loadedVertex);
+
+            }
+        }
+        std::shared_ptr<tigl::VBO> vbo_ptr(tigl::createVbo(groupVertices));
+        objGroup->vbo = vbo_ptr;
+    }
+
+    fillDrawables();
+}
+
+void ObjModel::fillDrawables()
+{
+    for (const auto &group: groups)
+    {
+        Drawable drawable;
+        drawable.vbo = group->vbo;
+        drawable.textureId = -1;
+        if (group->materialIndex != -1)
+        {
+            auto texture = materials[group->materialIndex]->texture;
+            if (texture) drawable.textureId = texture->getId();
+        }
+
+        drawables.push_back(drawable);
+    }
+}
+
+const std::vector<ObjModel::Drawable> &ObjModel::getDrawables() const
+{
+    return drawables;
+}
+
 ObjModel::MaterialInfo::MaterialInfo()
 {
     texture = nullptr;
 }
+
+
+
 
 

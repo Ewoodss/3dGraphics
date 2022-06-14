@@ -2,12 +2,21 @@
 
 
 #include <string>
-#include <GL/gl.h>
+#include <unordered_map>
+#include "glad/glad.h"
 
-class Texture {
+class Texture
+{
+private:
     GLuint id;
+    inline static std::unordered_map<std::string, GLuint> textureCache;
+
+    static GLuint loadTexture(const std::string &texturePath);
+
 public:
-    Texture(const std::string &fileName);
+    explicit Texture(const std::string &fileName);
+
+    GLuint getId() const;
 
     void bind();
 };
