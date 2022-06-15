@@ -16,12 +16,11 @@ void Mesh::Draw()
     glm::mat4 modelMatrix(1.0f);
 
     auto rotation = transform->getRotation();
-
+    
+    modelMatrix = glm::translate(modelMatrix, transform->getPosition());
     modelMatrix = glm::rotate(modelMatrix, rotation.x, glm::vec3(1, 0, 0));
     modelMatrix = glm::rotate(modelMatrix, rotation.y, glm::vec3(0, 1, 0));
     modelMatrix = glm::rotate(modelMatrix, rotation.z, glm::vec3(0, 0, 1));
-
-    modelMatrix = glm::translate(modelMatrix, transform->getPosition());
 
     tigl::shader->setModelMatrix(modelMatrix);
 

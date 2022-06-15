@@ -34,11 +34,11 @@ int main()
     int count;
     glfwGetMonitors(&count);
 
-    window = glfwCreateWindow(854, 480, "hello world", nullptr, nullptr);
-//    if (count > 1)
-//    {
-//        glfwSetWindowMonitor(window, nullptr, 1000, -600, 854, 480, GLFW_DONT_CARE);
-//    }
+    window = glfwCreateWindow(1280, 720, "hello world", nullptr, nullptr);
+    if (count > 1)
+    {
+        glfwSetWindowMonitor(window, nullptr, 500, -800, 1280, 720, GLFW_DONT_CARE);
+    }
     // get resolution of monitor
 
 
@@ -92,7 +92,8 @@ void worldInit()
     scene = std::make_shared<Scene>();
 
     auto tankGameObject = std::make_shared<GameObject>();
-    auto transform = tankGameObject->AddComponent<Transform>(glm::vec3(5, 0, 0), glm::radians(glm::vec3(0, 0, 0)),
+    auto transform = tankGameObject->AddComponent<Transform>(glm::vec3(0, 0, 0),
+                                                             glm::radians(glm::vec3(0.0f, 12.0f, 0.0f)),
                                                              glm::vec3(0.1f, 0.1f, 0.1f));
     tankGameObject->AddComponent<Mesh>(transform, "../resource/models/tanks/tank2.obj");
     tankGameObject->AddComponent<Camera>(scene, transform);

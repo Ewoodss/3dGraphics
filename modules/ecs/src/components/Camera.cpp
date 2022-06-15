@@ -16,11 +16,18 @@ void Camera::Draw()
 
 void Camera::Update()
 {
+
+    auto modelMatrix = glm::mat4(0.0f);
     glm::vec3 Up(0.0, 1.0f, 0.0f);
-    auto viewFrom = parentTransform->getPosition() + offsetTransform->getPosition() + glm::vec3(0.0f, 2.0f, 0.0f);
+    auto viewFrom = parentTransform->getPosition() + offsetTransform->getPosition() + glm::vec3(0.0f, 3.0f, 0.0f);
+
+    auto rotationNormal = parentTransform->getRotation();
+    auto rotation = glm::vec3(0.0f, -0.5f, 0.0f);
+    rotation.z += cosf(rotationNormal.y);
+    rotation.x += sinf(rotationNormal.y);
 
 
-    auto viewAt = viewFrom + glm::vec3(0.0f, -0.5f, 1.0f);
+    auto viewAt = viewFrom + rotation;
 
     glm::mat4 viewMatrix = glm::lookAt(viewFrom, viewAt, Up);
 
@@ -37,6 +44,6 @@ Camera::Camera(std::shared_ptr<Scene> scene, std::shared_ptr<Transform> parentTr
                                                                                            parentTransform(std::move(
                                                                                                    parentTransform))
 {
-    offsetTransform = std::make_shared<Transform>(glm::vec3(0.0f, 1.0f, 0.0f));
+    offsetTransform = std::make_shared<Transform>(glm::vec3(0.0f, 0.0f, 0.0f));
 }
 
