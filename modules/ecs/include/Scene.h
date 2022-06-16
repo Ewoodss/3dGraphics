@@ -10,11 +10,13 @@
 #include <vector>
 #include <memory>
 #include "glm/glm.hpp"
+#include "InputSystem.h"
 
 class Scene : public UpdateAble, public DrawAble
 {
     std::vector<std::shared_ptr<GameObject>> gameObjects;
     glm::mat4 viewMatrix;
+    std::shared_ptr<InputSystem> inputSystem;
 
 public:
     void Draw() override;
@@ -29,6 +31,9 @@ public:
 
     Scene();
 
+    InputSystem &getInputSystem() const;
 
+
+    const std::shared_ptr<InputSystem> &getInputSystemPtr() const;
 };
 

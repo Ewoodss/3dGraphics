@@ -22,6 +22,11 @@ const glm::vec3 &Transform::getRotation() const
 
 void Transform::setRotation(const glm::vec3 &newRotation)
 {
+    Transform::rotation = newRotation;
+}
+
+void Transform::setRotationDegrees(const glm::vec3 &newRotation)
+{
     this->rotation = glm::radians(newRotation);
 }
 
@@ -44,4 +49,13 @@ void Transform::setPosition(const glm::vec3 &newPosition)
 {
     this->position = newPosition;
 }
+
+glm::vec3 Transform::get2DDirection() const
+{
+    glm::vec3 direction = glm::vec3(0.0f, 0.0f, 0.0f);
+    direction.x += sinf(rotation.y);
+    direction.z += cosf(rotation.y);
+    return direction;
+}
+
 

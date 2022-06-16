@@ -21,7 +21,7 @@ public:
 
     glm::vec3 getRotationDegrees() const;
 
-    void setRotation(const glm::vec3 &rotation);
+    void setRotationDegrees(const glm::vec3 &newRotation);
 
     const glm::vec3 &getScale() const;
 
@@ -32,5 +32,9 @@ public:
     void setPosition(const glm::vec3 &position);
 
     const glm::vec3 &getRotation() const;
+
+    glm::vec3 get2DDirection() const;
+
+    void setRotation(const glm::vec3 &rotation);
 
 };

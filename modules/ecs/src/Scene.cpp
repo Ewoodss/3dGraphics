@@ -32,10 +32,21 @@ const glm::mat4 &Scene::getViewMatrix() const
 
 Scene::Scene() : viewMatrix(glm::mat4(1.0f))
 {
+    inputSystem = std::make_shared<InputSystem>();
 }
 
 void Scene::setViewMatrix(const glm::mat4 &newViewMatrix)
 {
     viewMatrix = newViewMatrix;
+}
+
+const std::shared_ptr<InputSystem> &Scene::getInputSystemPtr() const
+{
+    return inputSystem;
+}
+
+InputSystem &Scene::getInputSystem() const
+{
+    return *inputSystem;
 }
 

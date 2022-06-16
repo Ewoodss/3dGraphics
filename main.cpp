@@ -3,19 +3,14 @@
 #include <tigl.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
-#include <cmath>
 
 #include "FpsCam.h"
 #include "components/Transform.h"
 #include "Scene.h"
 #include "components/Mesh.h"
 #include "components/Camera.h"
-
-
-using tigl::Vertex;
-
-GLFWwindow *window;
-
+#include "GameTimer.h"
+#include "components/scripts/TankScript.h"
 
 void init();
 
@@ -25,9 +20,14 @@ void draw();
 
 void worldInit();
 
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
+
+void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
 int main()
 {
+    GLFWwindow *window;
+
     if (!glfwInit())
         throw std::runtime_error("Could not initialize GLFW");
 
@@ -37,11 +37,13 @@ int main()
     window = glfwCreateWindow(1280, 720, "hello world", nullptr, nullptr);
     if (count > 1)
     {
-        glfwSetWindowMonitor(window, nullptr, 500, -800, 1280, 720, GLFW_DONT_CARE);
+        glfwSetWindowMonitor(window, nullptr, 500, -800, 1280, 720, 240);
+    } else
+    {
+        glfwSetWindowMonitor(window, nullptr, 0, 0, 1280, 720, 240);
     }
     // get resolution of monitor
-
-
+    glfwSwapInterval(1);
     if (!window)
     {
         glfwTerminate();
@@ -60,6 +62,9 @@ int main()
     init();
     worldInit();
 
+    glfwSetKeyCallback(window, key_callback);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
     while (!glfwWindowShouldClose(window))
     {
         update();
@@ -75,38 +80,41 @@ int main()
 }
 
 
-GLuint texture;
-
-std::shared_ptr<Scene> scene;
-
 void init()
 {
     int value[10];
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, value);
-
 }
 
+std::shared_ptr<Scene> scene;
 
-void worldInit()
+
+void generatePlayerTank()
 {
-    scene = std::make_shared<Scene>();
-
     auto tankGameObject = std::make_shared<GameObject>();
     auto transform = tankGameObject->AddComponent<Transform>(glm::vec3(0, 0, 0),
                                                              glm::radians(glm::vec3(0.0f, 12.0f, 0.0f)),
                                                              glm::vec3(0.1f, 0.1f, 0.1f));
     tankGameObject->AddComponent<Mesh>(transform, "../resource/models/tanks/tank2.obj");
     tankGameObject->AddComponent<Camera>(scene, transform);
-
-
+    tankGameObject->AddComponent<TankScript>(scene->getInputSystemPtr(), transform);
     scene->AddGameObject(tankGameObject);
+}
+
+void worldInit()
+{
+    scene = std::make_shared<Scene>();
+
+    generatePlayerTank();
+    
+
 }
 
 
 //float rotation = 0.0f;
-
 void update()
 {
+    GameTimer::update(glfwGetTime());
     scene->Update();
 }
 
@@ -142,19 +150,30 @@ void draw()
 
     scene->Draw();
 
-
-
     //tigl::shader->setModelMatrix(glm::mat4(1.0f));
     tigl::shader->setModelMatrix(glm::mat4(1.0f));
+
     tigl::begin(GL_TRIANGLES);
 
-    tigl::addVertex(Vertex::PC(glm::vec3(-10, -1, -10), glm::vec4(1, 1, 1, 1)));
-    tigl::addVertex(Vertex::PC(glm::vec3(-10, -1, 10), glm::vec4(1, 1, 1, 1)));
-    tigl::addVertex(Vertex::PC(glm::vec3(10, -1, 10), glm::vec4(1, 1, 1, 1)));
+    tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, -10), glm::vec4(1, 1, 1, 1)));
+    tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, 10), glm::vec4(1, 1, 1, 1)));
+    tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, 10), glm::vec4(1, 1, 1, 1)));
 
-    tigl::addVertex(Vertex::PC(glm::vec3(-10, -1, -10), glm::vec4(1, 1, 1, 1)));
-    tigl::addVertex(Vertex::PC(glm::vec3(10, -1, -10), glm::vec4(1, 1, 1, 1)));
-    tigl::addVertex(Vertex::PC(glm::vec3(10, -1, 10), glm::vec4(1, 1, 1, 1)));
+    tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, -10), glm::vec4(1, 1, 1, 1)));
+    tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, -10), glm::vec4(1, 1, 1, 1)));
+    tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, 10), glm::vec4(1, 1, 1, 1)));
 
     tigl::end();
+}
+
+
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    scene->getInputSystem().triggerKeyFunction(key, action);
+}
+
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+    draw();
 }

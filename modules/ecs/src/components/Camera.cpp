@@ -21,11 +21,9 @@ void Camera::Update()
     glm::vec3 Up(0.0, 1.0f, 0.0f);
     auto viewFrom = parentTransform->getPosition() + offsetTransform->getPosition() + glm::vec3(0.0f, 3.0f, 0.0f);
 
-    auto rotationNormal = parentTransform->getRotation();
+    auto rotationDirection = parentTransform->get2DDirection();
     auto rotation = glm::vec3(0.0f, -0.5f, 0.0f);
-    rotation.z += cosf(rotationNormal.y);
-    rotation.x += sinf(rotationNormal.y);
-
+    rotation += rotationDirection;
 
     auto viewAt = viewFrom + rotation;
 
