@@ -44,4 +44,11 @@ target_link_libraries(${CMAKE_PROJECT_NAME} glad)
 target_link_libraries(${CMAKE_PROJECT_NAME} tigl)
 target_link_libraries(${CMAKE_PROJECT_NAME} stb_image)
 
-#add_subdirectory(test)
+if (MSVC)
+
+    add_custom_command(TARGET ${CMAKE_PROJECT_NAME}
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ../build)
+else ()
+    add_subdirectory(test)
+endif ()

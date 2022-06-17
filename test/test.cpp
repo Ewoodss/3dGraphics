@@ -1,7 +1,10 @@
 #include "InputSystem.h"
 #include <catch2/catch_test_macros.hpp>
 
-//class used for testing
+/**
+ * @brief a class used for testing InputSystem
+ */
+
 class TestingClass
 {
 public:

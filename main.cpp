@@ -13,22 +13,78 @@
 #include "components/Transform.h"
 #include "components/scripts/TankScript.h"
 
-/*! \mainpage 3D graphics and C++ EindOpdracht
+/*!@mainpage 3D graphics and C++ EindOpdracht
  *
- * \section wat heb ik gemaakt
+ * @section wat heb ik gemaakt
  *
  * ik heb ecs (entity component system) gemaakt.
  * hierbij heb ik overal smart pointers gebruikt.
  * ik heb een voorbeeld gemaakt van wat er gemaakt zou kunnen worden met dit ecs.
  * ook heb ik een manier gemaakt om scene's in te laden vanuit een text of json bestand
- * \section installatie instructies
- * er is gebruikt gemaakt van de MinGW toolset en de Ninja Build Tool in Combinatie met Cmake
+ * @section GamePlay
+ * De applicatie duurt lang om te starten ongeveer 60 sec, je kan dit verminderen door in de main LoadGround() uit te zetten, dan is er geen omgeving meer, maar gaat wel een stuk sneller
+ * De gameplay is je bent een tank die kan rondrijden en kan schieten
+ * @subsection Controls
+ * W: is vooruit
+ * S: is achteruit
+ * A: is naar links draaien
+ * D: is naar rechts draaien
+ * Space: is schieten
+ * @section installatie instructies
+ * er is gebruik gemaakt van de MinGW toolset en de Ninja Build Tool in Combinatie met Cmake
  * de makkelijkste manier om te builden is om gebruik te maken van clion hier is namelijk een bijpassende configuratie meegeleverd
- * \subsection using
+ * @subsection MinGW
+ * Ga naar Settings >> Build, Execution, Deployment >> Toolchains
+ *	klik hier op de plus en kies MinGW
+ * Er zou dan Toolset Bundled MinGw moeten staan, staat dit er niet klik dan op de download knop die rechts staat.
+ * kies als cmake Bundled
+ * kies als build tool: ninja
+ * kies als C Compiler gcc.exe
+ * kies als C++ g++.exe
+ * kies als Debugger Bundled GDB
+ * klik op oke en daarna de groene pijl in clion
+ * @subsection PowerShell and Default Environment
+ * open powershell in directory of this project
+ * run: cmake -Bbuild
+ * run daarna: cmake --build build/
+ * dit genereerd een .exe in de folder ./build
+ * @subsection running tests
+ * Test worden gedaan doormiddel van Catch2 V3.0 deze versie is niet meer 1 .h file, maar een globale installatie.
+ * heeft u Catch2 nog niet globaal geinstalleerd doe dit dan als volgt:
+ * Open powershell als administrator
+ * ga naar een folder zolang deze maar niet onderdeel is van dit project
+ * voor niet MSCV installatie doe het volgende:
+ * @code $ git clone https://github.com/catchorg/Catch2.git
+ * cd Catch2
+ * cmake -Bbuild
+ * cmake --build build/ --target install @endcode
+ * voor MSCV doe het volgende
+ * @code git clone https://github.com/Microsoft/vcpkg.git
+ * cd vcpkg
+ * ./bootstrap-vcpkg.sh
+ * ./vcpkg integrate install
+ * ./vcpkg install catch2 @endcode
+ * <div markdown="1">
+ * Requirements C++  | Locatie of Methode van voldoening
+ * ------------- | -------------
+ * De code gebruikt een consistente en gedocumenteerde stijl in layout en naamgeving.  | ik heb clangFormat gebruikt, de uitleg van de code style staat in .clang-format
+ * De code gebruikt geen overbodige #defines en bevat geen magische constanten.  | Elke define heeft zijn betekenis erbij staan, erzijn geen overbodige defines
+ * De code bevat geen leaks van memory of andere resources | er wordt gebruik gemaakt van smart pointers en elk model wordt na het laden verwijderd
+ * De code gebruikt op ten minste 1 plek op een zinnige wijze overerving en virtuele functie(s). | Component is een klasse met overscrhijfbare functies die door specifieke components kunnen worden overschreven
+ * Dit wordt aangetoond met een UML-diagram van de betreffende klassen | @see Component
+ * De code bevat een herbruikbaar onderdeel, dat gedocumenteerd is met Doxygen en getest met Catch2 of een andere vorm van geautomatiseerde unit-test | InputSystem is een herbruikbaar onderdeel, De testen staan in test.cpp
+ * De code gebruikt waar dit mogelijk en zinnig is STL containers en algoritmen | de GameOjects worden verwijderd als ze zelf aangeven dat ze verwijderd willen woorden hierbij word gebruik gemaakt van het erase(remove_if) algoritme
+ * De applicatie leest gegevens in vanuit een tekst file naar in-memory data, volgens het factory pattern. | heb hier in de Scene_Loader gebruik gemaakt van factory pattern die kan switchen tussen json en txt files uitlezen om objecten in te laden @see FileReaderFactory
+ * De code gebruikt waar mogelijk en zinnig const, constexpr en override | overal waar het kon heb ik gebruik gemaakt van const zichtbaar in bv Transform
+ * De code gebruikt consistent smart pointers en andere vormen van RAII | zie Scene en GameOject
+ * Het inlezen van de gegevens geeft bij een fout in de gegevens een zinnige foutmelding, waarbij gebruik wordt gemaakt van exceptions | hier is niet opgelet bij het inlezen van txt, bij het inlezen van json worden de exeptions van de library gebruikt
+ * De code maakt gebruik van data-driven programming | ja? zie SceneLoader
+ * De code maakt gebruik van lambda’s | ja je kan een labmda meegeven aan InputSystem#AddKeyFunction zie TankScript voor een implentatie hiervan
+ * De code maakt gebruik van exception handling | in de main worden Exeption gegooid wanneer glfw zichzelf niet kan initializeren
+ * De code gebruikt een zelfgeschreven STL-stijl container of algorithme | denk het niet of Templated toevoegen aan een Vector moet tellen
+ * De code voldoet aantoonbaar aan andere, wenselijke (kwaliteit verhogende) en gespecificeerde criteria. | Ik heb Templates gebruikt op meerdere plekken, deze templates zijn ook type Veilig zie bv GameObject#AddComponent @see GameObject
+ * </div>
  *
- * \subsection testing
- *
- * etc...
  */
 void Init();
 

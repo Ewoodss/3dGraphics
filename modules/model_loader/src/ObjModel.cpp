@@ -1,10 +1,11 @@
 #include "ObjModel.h"
+#include "Texture.h"
+
+#include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <vector>
-
-#include "Texture.h"
 #include <tigl.h>
+#include <vector>
 
 using tigl::Vertex;
 
