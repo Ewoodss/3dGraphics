@@ -1,0 +1,56 @@
+[
+  {
+    "modelName": "C:\\Git\\3d graphics\\resource\\models\\steve\\Steve.obj",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  {
+    "modelName": "C:\\Git\\3d graphics\\resource\\models\\car\\honda_jazz.obj",
+    "location": [
+      25.0,
+      0.0,
+      0.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      0.05,
+      0.05,
+      0.05
+    ]
+  },
+  {
+    "modelName": "C:\\Git\\3d graphics\\resource\\models\\ship\\shipA_OBJ.obj",
+    "location": [
+      0.0,
+      10.0,
+      0.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "scale": [
+      0.1,
+      0.1,
+      0.1
+    ]
+  }
+]
