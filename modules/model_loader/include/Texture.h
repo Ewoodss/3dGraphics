@@ -1,22 +1,21 @@
 #pragma once
 
-
+#include "glad/glad.h"
 #include <string>
 #include <unordered_map>
-#include "glad/glad.h"
 
 class Texture
 {
 private:
-    GLuint id;
-    inline static std::unordered_map<std::string, GLuint> textureCache;
+	GLuint id;
+	inline static std::unordered_map<std::string, GLuint> textureCache;
 
-    static GLuint loadTexture(const std::string &texturePath);
+	static GLuint loadTexture(const std::string& texturePath);
 
 public:
-    explicit Texture(const std::string &fileName);
+	explicit Texture(const std::string& fileName);
 
-    GLuint getId() const;
+	[[nodiscard]] GLuint getId() const;
 
-    void bind();
+	void bind();
 };

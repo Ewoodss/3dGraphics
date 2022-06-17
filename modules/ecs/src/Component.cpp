@@ -13,3 +13,8 @@ void Component::Update()
 {
 
 }
+
+bool Component::ShouldBeRemoved() const
+{
+	return shouldBeRemoved;
+}

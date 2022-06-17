@@ -2,85 +2,76 @@
 
 #include "glm/glm.hpp"
 
-#include <string>
-#include <vector>
 #include <list>
-#include <unordered_map>
 #include <memory>
+#include <string>
 #include <tigl.h>
+#include <unordered_map>
+#include <vector>
 
 class Texture;
 
 class ObjModel
 {
 private:
-    inline static std::unordered_map<std::string, ObjModel *> modelCache;
+	class Vertex
+	{
+	public:
+		int position;
+		int normal;
+		int texcoord;
+	};
 
-    explicit ObjModel(const std::string &filename);
+	class Face
+	{
+	public:
+		std::list<Vertex> vertices;
+	};
 
-    class Vertex
-    {
-    public:
-        int position;
-        int normal;
-        int texcoord;
-    };
+	class MaterialInfo
+	{
+	public:
+		MaterialInfo();
 
-    class Face
-    {
-    public:
-        std::list<Vertex> vertices;
-    };
+		std::string name;
+		Texture* texture;
+	};
 
-    class MaterialInfo
-    {
-    public:
-        MaterialInfo();
+	class ObjGroup
+	{
+	public:
+		std::string name;
+		int materialIndex;
+		std::list<Face> faces;
+		std::shared_ptr<tigl::VBO> vbo;
+	};
 
-        std::string name;
-        Texture *texture;
-    };
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec3> normals;
+	std::vector<glm::vec2> texcoords;
+	std::vector<ObjGroup*> groups;
+	std::vector<MaterialInfo*> materials;
 
-    class ObjGroup
-    {
-    public:
-        std::string name;
-        int materialIndex;
-        std::list<Face> faces;
-        std::shared_ptr<tigl::VBO> vbo;
-    };
+	void loadMaterialFile(const std::string& fileName, const std::string& dirName);
 
-    std::vector<glm::vec3> vertices;
-    std::vector<glm::vec3> normals;
-    std::vector<glm::vec2> texcoords;
-    std::vector<ObjGroup *> groups;
-    std::vector<MaterialInfo *> materials;
+	void MakeVbo();
 
-    void loadMaterialFile(const std::string &fileName, const std::string &dirName);
-
-    void MakeVbo();
-
-
-    void fillDrawables();
+	void fillDrawables();
 
 public:
-    ~ObjModel();
+	~ObjModel();
 
-    static ObjModel *getObjModel(const std::string &filename);
+	void Draw();
 
-    void Draw();
+	explicit ObjModel(const std::string& filename);
 
-    struct Drawable
-    {
-        std::shared_ptr<tigl::VBO> vbo;
-        GLuint textureId;
-    };
+	struct Drawable {
+		std::shared_ptr<tigl::VBO> vbo;
+		GLuint textureId;
+	};
 
-    const std::vector<Drawable> &getDrawables() const;
+	const std::vector<Drawable>& getDrawables();
 
 private:
-    std::vector<Drawable> drawables;
-
-
+	std::vector<Drawable> drawables;
 };
-

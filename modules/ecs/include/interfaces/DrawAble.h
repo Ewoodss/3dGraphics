@@ -7,7 +7,5 @@
 class DrawAble
 {
 public:
-    virtual void Draw() {};
-
-
+	virtual void Draw(){};
 };

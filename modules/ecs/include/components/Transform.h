@@ -4,37 +4,36 @@
 
 #pragma once
 
-#include "glm/vec3.hpp"
 #include "Component.h"
+#include "glm/vec3.hpp"
 
 class Transform : public Component
 {
 private:
-    glm::vec3 rotation;
-    glm::vec3 scale;
-    glm::vec3 position;
-
+	glm::vec3 rotation;
+	glm::vec3 scale;
+	glm::vec3 position;
 
 public:
-    explicit Transform(const glm::vec3 &position, const glm::vec3 &rotation = glm::vec3(0, 0, 0),
-                       const glm::vec3 &scale = glm::vec3(1, 1, 1));
+	explicit Transform(const glm::vec3& position,
+	                   const glm::vec3& rotation = glm::vec3(0, 0, 0),
+	                   const glm::vec3& scale = glm::vec3(1, 1, 1));
 
-    glm::vec3 getRotationDegrees() const;
+	[[nodiscard]] glm::vec3 getRotationDegrees() const;
 
-    void setRotationDegrees(const glm::vec3 &newRotation);
+	void setRotationDegrees(const glm::vec3& newRotation);
 
-    const glm::vec3 &getScale() const;
+	[[nodiscard]] const glm::vec3& getScale() const;
 
-    void setScale(const glm::vec3 &scale);
+	void setScale(const glm::vec3& scale);
 
-    const glm::vec3 &getPosition() const;
+	[[nodiscard]] const glm::vec3& getPosition() const;
 
-    void setPosition(const glm::vec3 &position);
+	void setPosition(const glm::vec3& position);
 
-    const glm::vec3 &getRotation() const;
+	[[nodiscard]] const glm::vec3& getRotation() const;
 
-    glm::vec3 get2DDirection() const;
+	[[nodiscard]] glm::vec3 get2DDirection() const;
 
-    void setRotation(const glm::vec3 &rotation);
-
+	void setRotation(const glm::vec3& rotation);
 };

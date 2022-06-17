@@ -6,3 +6,5 @@ file(GLOB MODEL_LOADER_SRC
         )
 
 add_library(model_loader ${MODEL_LOADER_SRC})
+
+target_link_libraries(model_loader ecs)

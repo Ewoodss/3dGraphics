@@ -4,16 +4,18 @@
 
 #pragma once
 
-
-#include "interfaces/UpdateAble.h"
 #include "interfaces/DrawAble.h"
+#include "interfaces/UpdateAble.h"
 
 class Component : public UpdateAble, public DrawAble
 {
+protected:
+	bool shouldBeRemoved = false;
+
 public:
-    void Draw() override;
+	void Draw() override;
 
-    void Update() override;
+	void Update() override;
 
+	[[nodiscard]] bool ShouldBeRemoved() const;
 };
-

@@ -4,23 +4,21 @@
 
 #pragma once
 
+#include "ModelCache.h"
 #include "Transform.h"
-#include "ObjModel.h"
 #include <memory>
 
 class Mesh : public Component
 {
 private:
-    std::shared_ptr<Transform> transform;
-    std::shared_ptr<ObjModel> model;
+	std::shared_ptr<Transform> transform;
+	ModelCache::DrawAbles drawAbles;
 
 public:
-    Mesh(std::shared_ptr<Transform> transform, std::shared_ptr<ObjModel> model);
+	Mesh(std::shared_ptr<Transform> transform, const std::string& filename);
 
-    Mesh(std::shared_ptr<Transform> transform, const std::string &filename);
+	void Update() override;
 
 private:
-    void Draw() override;
-
-
+	void Draw() override;
 };
