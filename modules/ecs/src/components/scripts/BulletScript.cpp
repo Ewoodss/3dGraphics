@@ -10,19 +10,19 @@ BulletScript::BulletScript(std::shared_ptr<Transform> parentTransform,
                            std::shared_ptr<Transform> selfTransform)
     : parentTransform(std::move(parentTransform)), selfTransform(std::move(selfTransform))
 {
-	auto rotation = this->parentTransform->getRotationDegrees();
-	this->selfTransform->setRotationDegrees(rotation);
+	auto rotation = this->parentTransform->GetRotationDegrees();
+	this->selfTransform->SetRotationDegrees(rotation);
 }
 
 void BulletScript::Update()
 {
-	auto posistion = this->selfTransform->getPosition();
-	posistion += this->selfTransform->get2DDirection();
-	this->selfTransform->setPosition(posistion);
+	auto position = this->selfTransform->GetPosition();
+	position += this->selfTransform->Get2DDirection();
+	this->selfTransform->SetPosition(position);
 
-	if (glm::distance(parentTransform->getPosition(), selfTransform->getPosition()) > 1000)
+	if (glm::distance(parentTransform->GetPosition(), selfTransform->GetPosition()) > 1000)
 	{
-		selfTransform->setScale(glm::vec3(0, 0, 0));
-		this->shouldBeRemoved = true;
+		selfTransform->SetScale(glm::vec3(0, 0, 0));
+		this->ShouldBeRemoved = true;
 	}
 }

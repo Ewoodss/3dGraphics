@@ -14,15 +14,15 @@
 class GameObject : public UpdateAble, public DrawAble
 {
 protected:
-	std::vector<std::shared_ptr<Component>> components;
-	bool shouldBeRemoved = false;
+	std::vector<std::shared_ptr<Component>> Components;
+	bool ShouldBeRemoved = false;
 
 public:
 	void Draw() override;
 
 	void Update() override;
 
-	[[nodiscard]] bool ShouldBeRemoved() const;
+	[[nodiscard]] bool GetShouldBeRemoved() const;
 
 	template<class T, std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true, typename... Args>
 	//advanced c++
@@ -30,7 +30,7 @@ public:
 	{
 		std::shared_ptr<T> component = std::make_shared<T>(std::forward<Args>(args)...);
 
-		components.push_back(std::static_pointer_cast<Component>(component));
+		Components.push_back(std::static_pointer_cast<Component>(component));
 
 		return component;
 	}
@@ -40,7 +40,7 @@ public:
 	{
 		std::shared_ptr<T> result(nullptr);
 
-		for (const auto& component : components)
+		for (const auto& component : Components)
 		{
 			auto castedComponent = std::dynamic_pointer_cast<T>(component);
 			if (castedComponent)

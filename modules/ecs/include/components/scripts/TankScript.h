@@ -18,23 +18,23 @@ private:
 	std::shared_ptr<Transform> transform;
 
 	struct Movement {
-		bool moveForward;
-		bool moveBackward;
-		bool rotateLeft;
-		bool rotateRight;
+		bool MoveForward;
+		bool MoveBackward;
+		bool RotateLeft;
+		bool RotateRight;
 	};
 
 	Movement movement = {false, false, false, false};
 
-	void moveForward(int action);
+	void MoveForward(int action);
 
-	void moveBackward(int action);
+	void MoveBackward(int action);
 
-	void rotateLeft(int action);
+	void RotateLeft(int action);
 
-	void rotateRight(int action);
+	void RotateRight(int action);
 
-	void shoot(int action);
+	void Shoot(int action);
 
 public:
 	TankScript(std::shared_ptr<Scene> scene,

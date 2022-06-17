@@ -14,7 +14,7 @@ void Component::Update()
 
 }
 
-bool Component::ShouldBeRemoved() const
+bool Component::GetShouldBeRemoved() const
 {
-	return shouldBeRemoved;
+	return ShouldBeRemoved;
 }

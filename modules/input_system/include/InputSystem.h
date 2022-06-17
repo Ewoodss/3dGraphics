@@ -19,7 +19,7 @@ public:
  * @param function the function that needs to be called when pressing the specified key
  * @return returns a boolean indicating if the keyFunction was added
  */
-	bool addKeyFunction(int key, const std::function<void(int action)>& function);
+	bool AddKeyFunction(int key, const std::function<void(int action)>& function);
 
 	/**
      *
@@ -27,11 +27,11 @@ public:
      * @param action  indicating which action is performed, can be pressed, released, repeated or any arbitrary number if not using in combination with glfw keys
      * @return returns whether or not the matching key function exists
      */
-	bool triggerKeyFunction(int key, int action) const;
+	bool TriggerKeyFunction(int key, int action) const;
 
 	/**
      * @param key the key which needs to be removed
      * @return returns whether or not the matching keyFunction is removed
      */
-	bool removeKeyFunction(int key);
+	bool RemoveKeyFunction(int key);
 };

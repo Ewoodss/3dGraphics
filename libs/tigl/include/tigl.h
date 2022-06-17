@@ -1,9 +1,8 @@
 #pragma once
 
 #include <glad/glad.h>
-
-#include <memory>
 #include <glm/glm.hpp>
+#include <memory>
 #include <vector>
 
 namespace tigl
@@ -13,9 +12,7 @@ namespace tigl
 		class Shader
 		{
 		public:
-			virtual ~Shader()
-			{
-			};
+			virtual ~Shader(){};
 
 			// Sets the projection matrix
 			virtual void setProjectionMatrix(const glm::mat4& matrix) = 0;
@@ -80,10 +77,9 @@ namespace tigl
 			// Sets the color of the fog
 			virtual void setFogColor(const glm::vec3& color) = 0;
 		};
-	}
+	}// namespace internal
 	// A simple structure to store vertices. Can store positions, normals, colors and texture coordinats
-	struct Vertex
-	{
+	struct Vertex {
 	public:
 		glm::vec3 position;
 		glm::vec3 normal;
@@ -93,50 +89,50 @@ namespace tigl
 		// Creates a vertex with a position
 		static Vertex P(const glm::vec3& position)
 		{
-			return { position, glm::vec3(0, 1, 0), glm::vec4(1, 1, 1, 1), glm::vec2(0, 0) };
+			return {position, glm::vec3(0, 1, 0), glm::vec4(1, 1, 1, 1), glm::vec2(0, 0)};
 		}
 
 		// Creates a vertex with a position and a color
 		static Vertex PC(const glm::vec3& position, const glm::vec4& color)
 		{
-			return { position, glm::vec3(0, 1, 0), color, glm::vec2(0, 0) };
+			return {position, glm::vec3(0, 1, 0), color, glm::vec2(0, 0)};
 		}
 
 		// Creates a vertex with a position and a texture coordinat
 		static Vertex PT(const glm::vec3& position, const glm::vec2& texcoord)
 		{
-			return { position, glm::vec3(0, 1, 0), glm::vec4(1, 1, 1, 1), texcoord };
+			return {position, glm::vec3(0, 1, 0), glm::vec4(1, 1, 1, 1), texcoord};
 		}
 
 		// Creates a vertex with a position and a normal
 		static Vertex PN(const glm::vec3& position, const glm::vec3& normal)
 		{
-			return { position, normal, glm::vec4(1, 1, 1, 1), glm::vec2(0, 0) };
+			return {position, normal, glm::vec4(1, 1, 1, 1), glm::vec2(0, 0)};
 		}
 
 		// Creates a vertex with a position, a texture coordinat and a color
 		static Vertex PTC(const glm::vec3& position, const glm::vec2& texcoord, const glm::vec4& color)
 		{
-			return { position, glm::vec3(0, 1, 0), color, texcoord };
+			return {position, glm::vec3(0, 1, 0), color, texcoord};
 		}
 
 		// Creates a vertex with a position, color and normal
 		static Vertex PCN(const glm::vec3& position, const glm::vec4& color, const glm::vec3& normal)
 		{
-			return { position, normal, color, glm::vec2(0, 0) };
+			return {position, normal, color, glm::vec2(0, 0)};
 		}
 
 		// Creates a vertex with a position, texture coordinat and normal
 		static Vertex PTN(const glm::vec3& position, const glm::vec2& texcoord, const glm::vec3& normal)
 		{
-			return { position, normal, glm::vec4(1, 1, 1, 1), texcoord };
+			return {position, normal, glm::vec4(1, 1, 1, 1), texcoord};
 		}
 
 		// Creates a vertex with a position, color, texture coordinat and normal
 		static Vertex
 		PCTN(const glm::vec3& position, const glm::vec4& color, const glm::vec2& texcoord, const glm::vec3& normal)
 		{
-			return { position, normal, color, texcoord };
+			return {position, normal, color, texcoord};
 		}
 
 		bool operator==(const Vertex& other);
@@ -146,6 +142,7 @@ namespace tigl
 	{
 	public:
 		~VBO();
+
 	private:
 		GLuint id;
 		unsigned int size;
@@ -176,7 +173,4 @@ namespace tigl
 
 	// draws vertices from a VBO
 	void drawVertices(GLenum shape, VBO* vbo);
-}
-
-
-
+}// namespace tigl

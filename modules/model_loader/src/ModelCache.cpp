@@ -5,7 +5,7 @@
 #include "ModelCache.h"
 #include <iostream>
 
-ModelCache::DrawAbles ModelCache::getObjModel(const std::string& fileName)
+ModelCache::DrawAbles ModelCache::GetObjModel(const std::string& fileName)
 {
 
 	auto modelFound = modelCacheMap.find(fileName);
@@ -20,7 +20,7 @@ ModelCache::DrawAbles ModelCache::getObjModel(const std::string& fileName)
 	{
 		std::cout << "getting model from drive" << fileName << std::endl;
 		auto objModel = new ObjModel(fileName);
-		drawAbles = objModel->getDrawables();
+		drawAbles = objModel->GetDrawables();
 		delete objModel;
 		modelCacheMap.insert({fileName, drawAbles});
 	}

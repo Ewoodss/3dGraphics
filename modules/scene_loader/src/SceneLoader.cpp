@@ -8,7 +8,7 @@
 #include "components/Transform.h"
 #include <glm/gtc/type_ptr.hpp>
 
-void SceneLoader::loadScene(const std::shared_ptr<Scene>& scene, const std::string& filename)
+void SceneLoader::LoadScene(const std::shared_ptr<Scene>& scene, const std::string& filename)
 {
 	FileReaderFactory::FileType filetype = FileReaderFactory::FileType::none;
 	if (filename.find("json") != std::string::npos)
@@ -28,9 +28,9 @@ void SceneLoader::loadScene(const std::shared_ptr<Scene>& scene, const std::stri
 	for (const auto& fileGameObject : fileGameObjects)
 	{
 		auto gameObject = std::make_shared<GameObject>();
-		auto transform = gameObject->AddComponent<Transform>(glm::make_vec3(fileGameObject.location),
-		                                                     glm::make_vec3(fileGameObject.rotation), glm::make_vec3(fileGameObject.scale));
-		gameObject->AddComponent<Mesh>(transform, fileGameObject.modelName);
+		auto transform = gameObject->AddComponent<Transform>(glm::make_vec3(fileGameObject.Location),
+		                                                     glm::make_vec3(fileGameObject.Rotation), glm::make_vec3(fileGameObject.Scale));
+		gameObject->AddComponent<Mesh>(transform, fileGameObject.ModelName);
 		scene->AddGameObject(gameObject);
 	}
 }

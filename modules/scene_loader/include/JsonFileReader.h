@@ -9,5 +9,5 @@
 class JsonFileReader : public FileReader
 {
 public:
-	std::vector<FileGameObject> GetFileGameObjects(const std::string& path) const override;
+	[[nodiscard]] std::vector<FileGameObject> GetFileGameObjects(const std::string& path) const override;
 };

@@ -14,59 +14,59 @@ TankScript::TankScript(std::shared_ptr<Scene> scene,
                        std::shared_ptr<Transform> transform)
     : scene(std::move(scene)), transform(std::move(transform))
 {
-	this->inputSystem = this->scene->getInputSystemPtr();
+	this->inputSystem = this->scene->GetInputSystemPtr();
 
-	this->inputSystem->addKeyFunction(GLFW_KEY_W, [this](int action) { this->moveForward(action); });
-	this->inputSystem->addKeyFunction(GLFW_KEY_S, [this](int action) { this->moveBackward(action); });
-	this->inputSystem->addKeyFunction(GLFW_KEY_A, [this](int action) { this->rotateLeft(action); });
-	this->inputSystem->addKeyFunction(GLFW_KEY_D, [this](int action) { this->rotateRight(action); });
-	this->inputSystem->addKeyFunction(GLFW_KEY_SPACE, [this](int action) { this->shoot(action); });
+	this->inputSystem->AddKeyFunction(GLFW_KEY_W, [this](int action) { this->MoveForward(action); });
+	this->inputSystem->AddKeyFunction(GLFW_KEY_S, [this](int action) { this->MoveBackward(action); });
+	this->inputSystem->AddKeyFunction(GLFW_KEY_A, [this](int action) { this->RotateLeft(action); });
+	this->inputSystem->AddKeyFunction(GLFW_KEY_D, [this](int action) { this->RotateRight(action); });
+	this->inputSystem->AddKeyFunction(GLFW_KEY_SPACE, [this](int action) { this->Shoot(action); });
 }
 
-void TankScript::moveForward(int action)
+void TankScript::MoveForward(int action)
 {
-	if (action == GLFW_PRESS) movement.moveForward = true;
-	if (action == GLFW_RELEASE) movement.moveForward = false;
+	if (action == GLFW_PRESS) movement.MoveForward = true;
+	if (action == GLFW_RELEASE) movement.MoveForward = false;
 }
 
-void TankScript::moveBackward(int action)
+void TankScript::MoveBackward(int action)
 {
-	if (action == GLFW_PRESS) movement.moveBackward = true;
-	if (action == GLFW_RELEASE) movement.moveBackward = false;
+	if (action == GLFW_PRESS) movement.MoveBackward = true;
+	if (action == GLFW_RELEASE) movement.MoveBackward = false;
 }
 
 void TankScript::Update()
 {
-	auto position = transform->getPosition();
-	auto rotation = transform->getRotationDegrees();
+	auto position = transform->GetPosition();
+	auto rotation = transform->GetRotationDegrees();
 
-	auto direction = transform->get2DDirection() * 0.05f;
+	auto direction = transform->Get2DDirection() * 0.05f;
 
-	if (movement.moveForward) position += direction;
-	if (movement.moveBackward) position -= direction;
-	if (movement.rotateLeft) rotation.y += 0.5f;
-	if (movement.rotateRight) rotation.y -= 0.5f;
+	if (movement.MoveForward) position += direction;
+	if (movement.MoveBackward) position -= direction;
+	if (movement.RotateLeft) rotation.y += 0.5f;
+	if (movement.RotateRight) rotation.y -= 0.5f;
 
-	transform->setPosition(position);
-	transform->setRotationDegrees(rotation);
+	transform->SetPosition(position);
+	transform->SetRotationDegrees(rotation);
 }
 
-void TankScript::rotateLeft(int action)
+void TankScript::RotateLeft(int action)
 {
-	if (action == GLFW_PRESS) movement.rotateLeft = true;
-	if (action == GLFW_RELEASE) movement.rotateLeft = false;
+	if (action == GLFW_PRESS) movement.RotateLeft = true;
+	if (action == GLFW_RELEASE) movement.RotateLeft = false;
 }
 
-void TankScript::rotateRight(int action)
+void TankScript::RotateRight(int action)
 {
-	if (action == GLFW_PRESS) movement.rotateRight = true;
-	if (action == GLFW_RELEASE) movement.rotateRight = false;
+	if (action == GLFW_PRESS) movement.RotateRight = true;
+	if (action == GLFW_RELEASE) movement.RotateRight = false;
 }
 
-void TankScript::shoot(int action)
+void TankScript::Shoot(int)
 {
 	auto bulletGameObject = std::make_shared<GameObject>();
-	auto bulletTransform = bulletGameObject->AddComponent<Transform>(transform->getPosition() + glm::vec3(0, 1, 0));
+	auto bulletTransform = bulletGameObject->AddComponent<Transform>(transform->GetPosition() + glm::vec3(0, 1, 0));
 
 	bulletGameObject->AddComponent<Mesh>(bulletTransform, "../resource/models/shell/TankShell.obj");
 	bulletGameObject->AddComponent<BulletScript>(transform, bulletTransform);

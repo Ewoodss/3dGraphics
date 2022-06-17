@@ -10,12 +10,12 @@ private:
 	GLuint id;
 	inline static std::unordered_map<std::string, GLuint> textureCache;
 
-	static GLuint loadTexture(const std::string& texturePath);
+	static GLuint LoadTexture(const std::string& texturePath);
 
 public:
 	explicit Texture(const std::string& fileName);
 
-	[[nodiscard]] GLuint getId() const;
+	[[nodiscard]] GLuint GetId() const;
 
-	void bind() const;
+	void Bind() const;
 };

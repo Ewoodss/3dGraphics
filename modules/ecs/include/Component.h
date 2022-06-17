@@ -10,12 +10,12 @@
 class Component : public UpdateAble, public DrawAble
 {
 protected:
-	bool shouldBeRemoved = false;
+	bool ShouldBeRemoved = false;
 
 public:
 	void Draw() override;
 
 	void Update() override;
 
-	[[nodiscard]] bool ShouldBeRemoved() const;
+	[[nodiscard]] bool GetShouldBeRemoved() const;
 };

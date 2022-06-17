@@ -17,15 +17,15 @@ private:
 	class Vertex
 	{
 	public:
-		int position;
-		int normal;
-		int texcoord;
+		int Position;
+		int Normal;
+		int Texcoord;
 	};
 
 	class Face
 	{
 	public:
-		std::list<Vertex> vertices;
+		std::list<Vertex> Vertices;
 	};
 
 	class MaterialInfo
@@ -33,17 +33,17 @@ private:
 	public:
 		MaterialInfo();
 
-		std::string name;
-		Texture* texture;
+		std::string Name;
+		Texture* Texture;
 	};
 
 	class ObjGroup
 	{
 	public:
-		std::string name;
-		int materialIndex;
-		std::list<Face> faces;
-		std::shared_ptr<tigl::VBO> vbo;
+		std::string Name;
+		int MaterialIndex;
+		std::list<Face> Faces;
+		std::shared_ptr<tigl::VBO> Vbo;
 	};
 
 	std::vector<glm::vec3> vertices;
@@ -52,11 +52,11 @@ private:
 	std::vector<ObjGroup*> groups;
 	std::vector<MaterialInfo*> materials;
 
-	void loadMaterialFile(const std::string& fileName, const std::string& dirName);
+	void LoadMaterialFile(const std::string& fileName, const std::string& dirName);
 
 	void MakeVbo();
 
-	void fillDrawables();
+	void FillDrawables();
 
 public:
 	~ObjModel();
@@ -66,11 +66,11 @@ public:
 	explicit ObjModel(const std::string& filename);
 
 	struct Drawable {
-		std::shared_ptr<tigl::VBO> vbo;
-		GLuint textureId;
+		std::shared_ptr<tigl::VBO> Vbo;
+		GLuint TextureId;
 	};
 
-	const std::vector<Drawable>& getDrawables();
+	const std::vector<Drawable>& GetDrawables();
 
 private:
 	std::vector<Drawable> drawables;

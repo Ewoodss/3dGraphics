@@ -15,18 +15,18 @@ void Camera::Update()
 {
 
 	auto modelMatrix = glm::mat4(0.0f);
-	glm::vec3 Up(0.0, 1.0f, 0.0f);
-	auto viewFrom = parentTransform->getPosition() + offsetTransform->getPosition() + glm::vec3(0.0f, 3.0f, 0.0f);
+	glm::vec3 up(0.0, 1.0f, 0.0f);
+	auto viewFrom = parentTransform->GetPosition() + offsetTransform->GetPosition() + glm::vec3(0.0f, 3.0f, 0.0f);
 
-	auto rotationDirection = parentTransform->get2DDirection();
+	auto rotationDirection = parentTransform->Get2DDirection();
 	auto rotation = glm::vec3(0.0f, -0.5f, 0.0f);
 	rotation += rotationDirection;
 
 	auto viewAt = viewFrom + rotation;
 
-	glm::mat4 viewMatrix = glm::lookAt(viewFrom, viewAt, Up);
+	glm::mat4 viewMatrix = glm::lookAt(viewFrom, viewAt, up);
 
-	scene->setViewMatrix(viewMatrix);
+	scene->SetViewMatrix(viewMatrix);
 }
 
 Camera::Camera(std::shared_ptr<Scene> scene, std::shared_ptr<Transform> parentTransform,

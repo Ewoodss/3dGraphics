@@ -17,10 +17,10 @@ std::vector<FileReader::FileGameObject> JsonFileReader::GetFileGameObjects(const
 	for (const auto& item : jsonArray)
 	{
 		FileReader::FileGameObject fileGameObject;
-		item.at("modelName").get_to(fileGameObject.modelName);
-		item.at("location").get_to(fileGameObject.location);
-		item.at("rotation").get_to(fileGameObject.rotation);
-		item.at("scale").get_to(fileGameObject.scale);
+		item.at("modelName").get_to(fileGameObject.ModelName);
+		item.at("location").get_to(fileGameObject.Location);
+		item.at("rotation").get_to(fileGameObject.Rotation);
+		item.at("scale").get_to(fileGameObject.Scale);
 		fileGameObjects.push_back(fileGameObject);
 	}
 	return fileGameObjects;

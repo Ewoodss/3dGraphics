@@ -16,5 +16,5 @@ private:
 	inline static std::unordered_map<std::string, DrawAbles> modelCacheMap;
 
 public:
-	static DrawAbles getObjModel(const std::string& fileName);
+	static DrawAbles GetObjModel(const std::string& fileName);
 };

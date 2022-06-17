@@ -13,12 +13,12 @@ class FileReader
 public:
 	struct FileGameObject
 	{
-		std::string modelName;
-		float location[3];
-		float rotation[3];
-		float scale[3];
+		std::string ModelName;
+		float Location[3];
+		float Rotation[3];
+		float Scale[3];
 	};
 
-	virtual std::vector<FileGameObject> GetFileGameObjects(const std::string& path) const = 0;
+	[[nodiscard]] virtual std::vector<FileGameObject> GetFileGameObjects(const std::string& path) const = 0;
 
 };

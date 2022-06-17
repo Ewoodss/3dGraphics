@@ -25,13 +25,13 @@ public:
 
 	void AddGameObject(const std::shared_ptr<GameObject>&);
 
-	[[nodiscard]] const glm::mat4& getViewMatrix() const;
+	[[nodiscard]] const glm::mat4& GetViewMatrix() const;
 
-	void setViewMatrix(const glm::mat4& viewMatrix);
+	void SetViewMatrix(const glm::mat4& viewMatrix);
 
 	Scene();
 
-	[[nodiscard]] InputSystem& getInputSystem() const;
+	[[nodiscard]] InputSystem& GetInputSystem() const;
 
-	[[nodiscard]] const std::shared_ptr<InputSystem>& getInputSystemPtr() const;
+	[[nodiscard]] const std::shared_ptr<InputSystem>& GetInputSystemPtr() const;
 };

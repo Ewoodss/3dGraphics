@@ -6,7 +6,7 @@
 
 void GameObject::Draw()
 {
-	for (const auto& component : components)
+	for (const auto& component : Components)
 	{
 		component->Draw();
 	}
@@ -14,23 +14,23 @@ void GameObject::Draw()
 
 void GameObject::Update()
 {
-	components.erase(remove_if(components.begin(), components.end(),
-	                           [](const std::shared_ptr<Component>& component) { return component->ShouldBeRemoved(); }),
-	                 components.end());
+	Components.erase(remove_if(Components.begin(), Components.end(),
+	                           [](const std::shared_ptr<Component>& component) { return component->GetShouldBeRemoved(); }),
+	                 Components.end());
 
-	if (components.empty())
+	if (Components.empty())
 	{
-		shouldBeRemoved = true;
+		ShouldBeRemoved = true;
 	}
 
-	for (const auto& component : components)
+	for (const auto& component : Components)
 	{
 		component->Update();
 	}
 }
-bool GameObject::ShouldBeRemoved() const
+bool GameObject::GetShouldBeRemoved() const
 {
-	return shouldBeRemoved;
+	return ShouldBeRemoved;
 }
 
 GameObject::~GameObject()

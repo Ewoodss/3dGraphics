@@ -1,29 +1,29 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <tigl.h>
+//This comment is here so that tigl stays at the top even on code reformatting. tigl needs to load first then glfw otherwise glad gets included twice
+#include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
-#include "components/Transform.h"
-#include "Scene.h"
-#include "components/Mesh.h"
-#include "components/Camera.h"
-#include "GameTimer.h"
-#include "components/scripts/TankScript.h"
 #include "FileReaderFactory.h"
+#include "GameTimer.h"
+#include "Scene.h"
 #include "SceneLoader.h"
+#include "components/Camera.h"
+#include "components/Mesh.h"
+#include "components/Transform.h"
+#include "components/scripts/TankScript.h"
 
-void init();
+void Init();
 
-void update();
+void Update();
 
-void draw();
+void Draw();
 
-void worldInit();
+void WorldInit();
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
 int main()
 {
@@ -61,16 +61,16 @@ int main()
 	}
 
 	tigl::init();
-	init();
-	worldInit();
+	Init();
+	WorldInit();
 
-	glfwSetKeyCallback(window, key_callback);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetKeyCallback(window, KeyCallback);
+	glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
 
 	while (!glfwWindowShouldClose(window))
 	{
-		update();
-		draw();
+		Update();
+		Draw();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -80,7 +80,7 @@ int main()
 	return 0;
 }
 
-void init()
+void Init()
 {
 	int value[10];
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, value);
@@ -88,43 +88,44 @@ void init()
 
 std::shared_ptr<Scene> scene;
 
-void generatePlayerTank()
+void GeneratePlayerTank()
 {
 	auto tankGameObject = std::make_shared<GameObject>();
 	auto transform = tankGameObject->AddComponent<Transform>(glm::vec3(0, 0, 0),
-			glm::radians(glm::vec3(0.0f, 12.0f, 0.0f)),
-			glm::vec3(1.0f, 1.0f, 1.0f));
+	                                                         glm::radians(glm::vec3(0.0f, 12.0f, 0.0f)),
+	                                                         glm::vec3(1.0f, 1.0f, 1.0f));
 	tankGameObject->AddComponent<Mesh>(transform, "../resource/models/tanks/tank2.obj");
 	tankGameObject->AddComponent<Camera>(scene, transform);
 	tankGameObject->AddComponent<TankScript>(scene, transform);
 	scene->AddGameObject(tankGameObject);
 }
 
-void loadGround()
+void LoadGround()
 {
 	auto groundObject = std::make_shared<GameObject>();
 	auto transform = groundObject->AddComponent<Transform>(glm::vec3(0, -1.0f, 0));
 	groundObject->AddComponent<Mesh>(transform, "../resource/models/ground/ground.obj");
 	scene->AddGameObject(groundObject);
 }
-void worldInit()
+
+void WorldInit()
 {
 	scene = std::make_shared<Scene>();
 
-	SceneLoader::loadScene(scene, "../resource/scenes/scene.json");
+	SceneLoader::LoadScene(scene, "../resource/scenes/scene.json");
 
-	generatePlayerTank();
-	loadGround();
+	GeneratePlayerTank();
+	LoadGround();
 }
 
 //float rotation = 0.0f;
-void update()
+void Update()
 {
-	GameTimer::update(glfwGetTime());
+	GameTimer::Update(glfwGetTime());
 	scene->Update();
 }
 
-void draw()
+void Draw()
 {
 	glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -132,10 +133,10 @@ void draw()
 	int viewport[4];
 	glGetIntegerv(GL_VIEWPORT, viewport);
 	glm::mat4 projection = glm::perspective(glm::radians(75.0f), (float)viewport[2] / (float)viewport[3], 0.01f,
-			100.0f);
+	                                        100.0f);
 
 	tigl::shader->setProjectionMatrix(projection);
-	tigl::shader->setViewMatrix(scene->getViewMatrix());
+	tigl::shader->setViewMatrix(scene->GetViewMatrix());
 	tigl::shader->enableColor(true);
 	tigl::shader->setModelMatrix(glm::mat4(1.0f));
 	tigl::shader->enableFog(true);
@@ -151,7 +152,6 @@ void draw()
 	tigl::shader->setLightSpecular(0, glm::vec3(0, 0, 0));
 	tigl::shader->setShinyness(32.0f);
 
-
 	//glBindTexture(GL_TEXTURE_2D, texture);
 	//tigl::shader->enableTexture(true);
 	glEnable(GL_DEPTH_TEST);
@@ -160,28 +160,28 @@ void draw()
 	scene->Draw();
 
 	//tigl::shader->setModelMatrix(glm::mat4(1.0f));
-//	tigl::shader->setModelMatrix(glm::mat4(1.0f));
+	//	tigl::shader->setModelMatrix(glm::mat4(1.0f));
 
-//	tigl::begin(GL_TRIANGLES);
-//
-//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, -10), glm::vec4(1, 1, 1, 1)));
-//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, 10), glm::vec4(1, 1, 1, 1)));
-//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, 10), glm::vec4(1, 1, 1, 1)));
-//
-//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, -10), glm::vec4(1, 1, 1, 1)));
-//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, -10), glm::vec4(1, 1, 1, 1)));
-//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, 10), glm::vec4(1, 1, 1, 1)));
-//
-//	tigl::end();
+	//	tigl::begin(GL_TRIANGLES);
+	//
+	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, -10), glm::vec4(1, 1, 1, 1)));
+	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, 10), glm::vec4(1, 1, 1, 1)));
+	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, 10), glm::vec4(1, 1, 1, 1)));
+	//
+	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, -10), glm::vec4(1, 1, 1, 1)));
+	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, -10), glm::vec4(1, 1, 1, 1)));
+	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, 10), glm::vec4(1, 1, 1, 1)));
+	//
+	//	tigl::end();
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void KeyCallback(GLFWwindow*, int key, int, int action, int)
 {
-	scene->getInputSystem().triggerKeyFunction(key, action);
+	scene->GetInputSystem().TriggerKeyFunction(key, action);
 }
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void FramebufferSizeCallback(GLFWwindow*, int width, int height)
 {
 	glViewport(0, 0, width, height);
-	draw();
+	Draw();
 }

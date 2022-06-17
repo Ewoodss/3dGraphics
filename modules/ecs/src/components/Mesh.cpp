@@ -12,14 +12,14 @@ void Mesh::Draw()
 //    model->Draw();
 	glm::mat4 modelMatrix(1.0f);
 
-	auto rotation = transform->getRotation();
+	auto rotation = transform->GetRotation();
 
-	modelMatrix = glm::translate(modelMatrix, transform->getPosition());
+	modelMatrix = glm::translate(modelMatrix, transform->GetPosition());
 	modelMatrix = glm::rotate(modelMatrix, rotation.x, glm::vec3(1, 0, 0));
 	modelMatrix = glm::rotate(modelMatrix, rotation.y, glm::vec3(0, 1, 0));
 	modelMatrix = glm::rotate(modelMatrix, rotation.z, glm::vec3(0, 0, 1));
 
-	modelMatrix = glm::scale(modelMatrix, transform->getScale());
+	modelMatrix = glm::scale(modelMatrix, transform->GetScale());
 
 	tigl::shader->setModelMatrix(modelMatrix);
 
@@ -27,8 +27,8 @@ void Mesh::Draw()
 
 	for (const auto& drawable : this->drawAbles)
 	{
-		if (drawable.textureId != -1) glBindTexture(GL_TEXTURE_2D, drawable.textureId);
-		tigl::drawVertices(GL_TRIANGLES, drawable.vbo.get());
+		if (drawable.TextureId != -1) glBindTexture(GL_TEXTURE_2D, drawable.TextureId);
+		tigl::drawVertices(GL_TRIANGLES, drawable.Vbo.get());
 	}
 
 	tigl::shader->enableTexture(false);
@@ -37,12 +37,12 @@ void Mesh::Draw()
 Mesh::Mesh(std::shared_ptr<Transform> transform, const std::string& filename)
 		:transform(std::move(transform))
 {
-	this->drawAbles = ModelCache::getObjModel(filename);
+	this->drawAbles = ModelCache::GetObjModel(filename);
 }
 void Mesh::Update()
 {
-	if (transform->ShouldBeRemoved())
+	if (transform->GetShouldBeRemoved())
 	{
-		this->shouldBeRemoved = true;
+		this->ShouldBeRemoved = true;
 	}
 }

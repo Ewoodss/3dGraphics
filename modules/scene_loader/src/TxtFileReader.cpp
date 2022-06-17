@@ -25,34 +25,34 @@ std::vector<FileReader::FileGameObject> TxtFileReader::GetFileGameObjects(const 
 		getline(pFile, line, ' ');
 		if (line[0] != 'F') continue;
 		getline(pFile, line);
-		fileGameObject.modelName = line;
+		fileGameObject.ModelName = line;
 
 		getline(pFile, line, ' ');
 		if (line[0] != 'L') continue;
 		getline(pFile, line, ',');
-		fileGameObject.location[0] = strtof(line.c_str(), nullptr);
+		fileGameObject.Location[0] = strtof(line.c_str(), nullptr);
 		getline(pFile, line, ',');
-		fileGameObject.location[1] = strtof(line.c_str(), nullptr);
+		fileGameObject.Location[1] = strtof(line.c_str(), nullptr);
 		getline(pFile, line);
-		fileGameObject.location[2] = strtof(line.c_str(), nullptr);
+		fileGameObject.Location[2] = strtof(line.c_str(), nullptr);
 
 		getline(pFile, line, ' ');
 		if (line[0] != 'R') continue;
 		getline(pFile, line, ',');
-		fileGameObject.rotation[0] = strtof(line.c_str(), nullptr);
+		fileGameObject.Rotation[0] = strtof(line.c_str(), nullptr);
 		getline(pFile, line, ',');
-		fileGameObject.rotation[1] = strtof(line.c_str(), nullptr);
+		fileGameObject.Rotation[1] = strtof(line.c_str(), nullptr);
 		getline(pFile, line);
-		fileGameObject.rotation[2] = strtof(line.c_str(), nullptr);
+		fileGameObject.Rotation[2] = strtof(line.c_str(), nullptr);
 
 		getline(pFile, line, ' ');
 		if (line[0] != 'S') continue;
 		getline(pFile, line, ',');
-		fileGameObject.scale[0] = strtof(line.c_str(), nullptr);
+		fileGameObject.Scale[0] = strtof(line.c_str(), nullptr);
 		getline(pFile, line, ',');
-		fileGameObject.scale[1] = strtof(line.c_str(), nullptr);
+		fileGameObject.Scale[1] = strtof(line.c_str(), nullptr);
 		getline(pFile, line);
-		fileGameObject.scale[2] = strtof(line.c_str(), nullptr);
+		fileGameObject.Scale[2] = strtof(line.c_str(), nullptr);
 
 		fileGameObjects.push_back(fileGameObject);
 	}

@@ -19,7 +19,7 @@ Texture::Texture(const std::string& fileName)
 	}
 	else
 	{
-		auto textureGluint = loadTexture(fileName);
+		auto textureGluint = LoadTexture(fileName);
 
 		textureCache.insert({fileName, textureGluint});
 
@@ -27,13 +27,13 @@ Texture::Texture(const std::string& fileName)
 	}
 }
 
-void Texture::bind() const
+void Texture::Bind() const
 {
 	glBindTexture(GL_TEXTURE_2D, id);
 	// tigl::shader->enableTexture(true);
 }
 
-GLuint Texture::loadTexture(const std::string& texturePath)
+GLuint Texture::LoadTexture(const std::string& texturePath)
 {
 	std::cout << "loading texture " << texturePath << std::endl;
 	int width, height, bpp;
@@ -54,7 +54,7 @@ GLuint Texture::loadTexture(const std::string& texturePath)
 	return textureId;
 }
 
-GLuint Texture::getId() const
+GLuint Texture::GetId() const
 {
 	return id;
 }

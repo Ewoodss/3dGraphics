@@ -16,7 +16,7 @@ void Scene::Draw()
 void Scene::Update()
 {
 	gameObjects.erase(remove_if(gameObjects.begin(), gameObjects.end(),
-	                            [](const std::shared_ptr<GameObject>& gameObject) { return gameObject->ShouldBeRemoved(); }),
+	                            [](const std::shared_ptr<GameObject>& gameObject) { return gameObject->GetShouldBeRemoved(); }),
 	                  gameObjects.end());
 
 	for (const auto& gameObject : gameObjects)
@@ -30,7 +30,7 @@ void Scene::AddGameObject(const std::shared_ptr<GameObject>& gameObject)
 	gameObjects.push_back(gameObject);
 }
 
-const glm::mat4& Scene::getViewMatrix() const
+const glm::mat4& Scene::GetViewMatrix() const
 {
 	return viewMatrix;
 }
@@ -41,17 +41,17 @@ Scene::Scene()
 	inputSystem = std::make_shared<InputSystem>();
 }
 
-void Scene::setViewMatrix(const glm::mat4& newViewMatrix)
+void Scene::SetViewMatrix(const glm::mat4& viewMatrix)
 {
-	viewMatrix = newViewMatrix;
+	this->viewMatrix = viewMatrix;
 }
 
-const std::shared_ptr<InputSystem>& Scene::getInputSystemPtr() const
+const std::shared_ptr<InputSystem>& Scene::GetInputSystemPtr() const
 {
 	return inputSystem;
 }
 
-InputSystem& Scene::getInputSystem() const
+InputSystem& Scene::GetInputSystem() const
 {
 	return *inputSystem;
 }

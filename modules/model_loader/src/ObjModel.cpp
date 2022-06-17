@@ -11,7 +11,7 @@ using tigl::Vertex;
 /**
 * Replaces a substring in a string
 */
-static std::string replace(std::string str, const std::string& toReplace, const std::string& replacement)
+static std::string Replace(std::string str, const std::string& toReplace, const std::string& replacement)
 {
 	size_t index = 0;
 	while (true)
@@ -28,7 +28,7 @@ static std::string replace(std::string str, const std::string& toReplace, const 
 /**
 * Splits a string into substrings, based on a seperator
 */
-static std::vector<std::string> split(std::string str, const std::string& seperator)
+static std::vector<std::string> Split(std::string str, const std::string& seperator)
 {
 	std::vector<std::string> ret;
 	size_t index;
@@ -47,7 +47,7 @@ static std::vector<std::string> split(std::string str, const std::string& sepera
 /**
 * Turns a string to lowercase
 */
-static inline std::string toLower(std::string data)
+static inline std::string ToLower(std::string data)
 {
 	std::transform(data.begin(), data.end(), data.begin(), ::tolower);
 	return data;
@@ -56,11 +56,11 @@ static inline std::string toLower(std::string data)
 /**
 * Cleans up a line for processing
 */
-static inline std::string cleanLine(std::string line)
+static inline std::string CleanLine(std::string line)
 {
-	line = replace(line, "\t", " ");
+	line = Replace(line, "\t", " ");
 	while (line.find("  ") != std::string::npos)
-		line = replace(line, "  ", " ");
+		line = Replace(line, "  ", " ");
 	if (line.empty())
 		return "";
 	if (line[0] == ' ') { line = line.substr(1); }
@@ -94,18 +94,18 @@ ObjModel::ObjModel(const std::string& fileName)
 	}
 
 	auto* currentGroup = new ObjGroup();
-	currentGroup->materialIndex = -1;
+	currentGroup->MaterialIndex = -1;
 
 	while (!pFile.eof())
 	{
 		std::string line;
 		std::getline(pFile, line);
-		line = cleanLine(line);
+		line = CleanLine(line);
 		if (line.empty() || line[0] == '#')//skip empty or commented line
 			continue;
 
-		std::vector<std::string> params = split(line, " ");
-		params[0] = toLower(params[0]);
+		std::vector<std::string> params = Split(line, " ");
+		params[0] = ToLower(params[0]);
 
 		if (params[0] == "v")
 			vertices.emplace_back(strtof(params[1].c_str(), nullptr),
@@ -127,20 +127,20 @@ ObjModel::ObjModel(const std::string& fileName)
 				for (size_t i = ii - 3; i < ii; i++)//magische forlus om van quads triangles te maken ;)
 				{
 					Vertex vertex{};
-					std::vector<std::string> indices = split(params[i == (ii - 3) ? 1 : i], "/");
+					std::vector<std::string> indices = Split(params[i == (ii - 3) ? 1 : i], "/");
 					if (!indices.empty())//er is een positie
-						vertex.position = strtol(indices[0].c_str(), nullptr, 10) - 1;
+						vertex.Position = strtol(indices[0].c_str(), nullptr, 10) - 1;
 					if (indices.size() == 2)//alleen texture
-						vertex.texcoord = strtol(indices[1].c_str(), nullptr, 10) - 1;
+						vertex.Texcoord = strtol(indices[1].c_str(), nullptr, 10) - 1;
 					if (indices.size() == 3)//v/t/n of v//n
 					{
 						if (!indices[1].empty())
-							vertex.texcoord = strtol(indices[1].c_str(), nullptr, 10) - 1;
-						vertex.normal = strtol(indices[2].c_str(), nullptr, 10) - 1;
+							vertex.Texcoord = strtol(indices[1].c_str(), nullptr, 10) - 1;
+						vertex.Normal = strtol(indices[2].c_str(), nullptr, 10) - 1;
 					}
-					face.vertices.push_back(vertex);
+					face.Vertices.push_back(vertex);
 				}
-				currentGroup->faces.push_back(face);
+				currentGroup->Faces.push_back(face);
 			}
 		}
 		else if (params[0] == "s")
@@ -148,25 +148,25 @@ ObjModel::ObjModel(const std::string& fileName)
 		}
 		else if (params[0] == "mtllib")
 		{
-			loadMaterialFile(dirName + "/" + params[1], dirName);
+			LoadMaterialFile(dirName + "/" + params[1], dirName);
 		}
 		else if (params[0] == "usemtl")
 		{
-			if (!currentGroup->faces.empty())
+			if (!currentGroup->Faces.empty())
 				groups.push_back(currentGroup);
 			currentGroup = new ObjGroup();
-			currentGroup->materialIndex = -1;
+			currentGroup->MaterialIndex = -1;
 
 			for (int i = 0; i < materials.size(); i++)
 			{
 				MaterialInfo* info = materials[i];
-				if (info->name == params[1])
+				if (info->Name == params[1])
 				{
-					currentGroup->materialIndex = i;
+					currentGroup->MaterialIndex = i;
 					break;
 				}
 			}
-			if (currentGroup->materialIndex == -1)
+			if (currentGroup->MaterialIndex == -1)
 				std::cout << "Could not find material name " << params[1] << std::endl;
 		}
 	}
@@ -191,18 +191,18 @@ void ObjModel::Draw()
 
 	for (const auto& group : groups)
 	{
-		if (group->materialIndex != -1)
+		if (group->MaterialIndex != -1)
 		{
-			auto texture = materials[group->materialIndex]->texture;
-			if (texture) texture->bind();
+			auto texture = materials[group->MaterialIndex]->Texture;
+			if (texture) texture->Bind();
 		}
 
-		tigl::drawVertices(GL_TRIANGLES, group->vbo.get());
+		tigl::drawVertices(GL_TRIANGLES, group->Vbo.get());
 	}
 	tigl::shader->enableTexture(false);
 }
 
-void ObjModel::loadMaterialFile(const std::string& fileName, const std::string& dirName)
+void ObjModel::LoadMaterialFile(const std::string& fileName, const std::string& dirName)
 {
 	std::cout << "Loading " << fileName << std::endl;
 	std::ifstream pFile(fileName.c_str());
@@ -218,12 +218,12 @@ void ObjModel::loadMaterialFile(const std::string& fileName, const std::string& 
 	{
 		std::string line;
 		std::getline(pFile, line);
-		line = cleanLine(line);
+		line = CleanLine(line);
 		if (line.empty() || line[0] == '#')
 			continue;
 
-		std::vector<std::string> params = split(line, " ");
-		params[0] = toLower(params[0]);
+		std::vector<std::string> params = Split(line, " ");
+		params[0] = ToLower(params[0]);
 
 		if (params[0] == "newmtl")
 		{
@@ -232,7 +232,7 @@ void ObjModel::loadMaterialFile(const std::string& fileName, const std::string& 
 				materials.push_back(currentMaterial);
 			}
 			currentMaterial = new MaterialInfo();
-			currentMaterial->name = params[1];
+			currentMaterial->Name = params[1];
 		}
 		else if (params[0] == "map_kd")
 		{
@@ -244,7 +244,8 @@ void ObjModel::loadMaterialFile(const std::string& fileName, const std::string& 
 			//TODO
 			if (currentMaterial != nullptr)
 			{
-				currentMaterial->texture = new Texture(dirName + "/" + tex);
+				auto textureDir = dirName;
+				currentMaterial->Texture = new Texture(textureDir.append("/").append(tex));
 			}
 		}
 		else if (params[0] == "kd")
@@ -276,46 +277,46 @@ void ObjModel::MakeVbo()
 	for (auto& objGroup : groups)
 	{
 		std::vector<tigl::Vertex> groupVertices;
-		for (const auto& face : objGroup->faces)
+		for (const auto& face : objGroup->Faces)
 		{
 
-			for (const auto& vertex : face.vertices)
+			for (const auto& vertex : face.Vertices)
 			{
-				auto vertexPosition = this->vertices[vertex.position];
-				auto normalPosition = this->normals[vertex.normal];
-				auto texturePosition = this->texcoords[vertex.texcoord];
+				auto vertexPosition = this->vertices[vertex.Position];
+				auto normalPosition = this->normals[vertex.Normal];
+				auto texturePosition = this->texcoords[vertex.Texcoord];
 				auto loadedVertex = tigl::Vertex::PTN(vertexPosition, texturePosition, normalPosition);
 				groupVertices.push_back(loadedVertex);
 			}
 		}
-		std::shared_ptr<tigl::VBO> vbo_ptr(tigl::createVbo(groupVertices));
-		objGroup->vbo = vbo_ptr;
+		std::shared_ptr<tigl::VBO> vboPtr(tigl::createVbo(groupVertices));
+		objGroup->Vbo = vboPtr;
 	}
-	fillDrawables();
+	FillDrawables();
 }
 
-void ObjModel::fillDrawables()
+void ObjModel::FillDrawables()
 {
 	for (const auto& group : groups)
 	{
 		Drawable drawable;
-		drawable.vbo = group->vbo;
-		drawable.textureId = -1;
-		if (group->materialIndex != -1)
+		drawable.Vbo = group->Vbo;
+		drawable.TextureId = -1;
+		if (group->MaterialIndex != -1)
 		{
-			auto texture = materials[group->materialIndex]->texture;
-			if (texture) drawable.textureId = texture->getId();
+			auto texture = materials[group->MaterialIndex]->Texture;
+			if (texture) drawable.TextureId = texture->GetId();
 		}
 		drawables.push_back(drawable);
 	}
 }
 
-// absolute shit code this should have been different
-const std::vector<ObjModel::Drawable>& ObjModel::getDrawables()
+// absolut *** code this should have been different
+const std::vector<ObjModel::Drawable>& ObjModel::GetDrawables()
 {
 	for (auto& item : groups)
 	{
-		item->faces.clear();
+		item->Faces.clear();
 	}
 	groups.clear();
 
@@ -324,5 +325,5 @@ const std::vector<ObjModel::Drawable>& ObjModel::getDrawables()
 
 ObjModel::MaterialInfo::MaterialInfo()
 {
-	texture = nullptr;
+	Texture = nullptr;
 }

@@ -4,14 +4,14 @@
 
 #include "InputSystem.h"
 
-bool InputSystem::addKeyFunction(int key, const std::function<void(int action)>& function)
+bool InputSystem::AddKeyFunction(int key, const std::function<void(int action)>& function)
 {
 	auto inserted = keyFunctionMap.emplace(key, function);
 
 	return inserted.second;
 }
 
-bool InputSystem::triggerKeyFunction(int key, int action) const
+bool InputSystem::TriggerKeyFunction(int key, int action) const
 {
 	auto functionFound = keyFunctionMap.find(key);
 	if (functionFound == keyFunctionMap.end()) return false;
@@ -21,7 +21,7 @@ bool InputSystem::triggerKeyFunction(int key, int action) const
 	return true;
 }
 
-bool InputSystem::removeKeyFunction(int key)
+bool InputSystem::RemoveKeyFunction(int key)
 {
 	return keyFunctionMap.erase(key);
 }
