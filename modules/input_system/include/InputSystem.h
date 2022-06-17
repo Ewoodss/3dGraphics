@@ -7,6 +7,9 @@
 #include <functional>
 #include <map>
 
+/**
+ * @brief Class for keeping mapping keyboard events to the corresponding function
+ */
 class InputSystem
 {
 private:

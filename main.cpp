@@ -13,6 +13,23 @@
 #include "components/Transform.h"
 #include "components/scripts/TankScript.h"
 
+/*! \mainpage 3D graphics and C++ EindOpdracht
+ *
+ * \section wat heb ik gemaakt
+ *
+ * ik heb ecs (entity component system) gemaakt.
+ * hierbij heb ik overal smart pointers gebruikt.
+ * ik heb een voorbeeld gemaakt van wat er gemaakt zou kunnen worden met dit ecs.
+ * ook heb ik een manier gemaakt om scene's in te laden vanuit een text of json bestand
+ * \section installatie instructies
+ * er is gebruikt gemaakt van de MinGW toolset en de Ninja Build Tool in Combinatie met Cmake
+ * de makkelijkste manier om te builden is om gebruik te maken van clion hier is namelijk een bijpassende configuratie meegeleverd
+ * \subsection using
+ *
+ * \subsection testing
+ *
+ * etc...
+ */
 void Init();
 
 void Update();

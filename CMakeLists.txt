@@ -44,4 +44,4 @@ target_link_libraries(${CMAKE_PROJECT_NAME} glad)
 target_link_libraries(${CMAKE_PROJECT_NAME} tigl)
 target_link_libraries(${CMAKE_PROJECT_NAME} stb_image)
 
-add_subdirectory(test)
+#add_subdirectory(test)
