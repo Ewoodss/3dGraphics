@@ -225,27 +225,10 @@ void Draw()
 	tigl::shader->setLightSpecular(0, glm::vec3(0, 0, 0));
 	tigl::shader->setShinyness(32.0f);
 
-	//glBindTexture(GL_TEXTURE_2D, texture);
-	//tigl::shader->enableTexture(true);
 	glEnable(GL_DEPTH_TEST);
 	glPointSize(10.0f);
 
 	scene->Draw();
-
-	//tigl::shader->setModelMatrix(glm::mat4(1.0f));
-	//	tigl::shader->setModelMatrix(glm::mat4(1.0f));
-
-	//	tigl::begin(GL_TRIANGLES);
-	//
-	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, -10), glm::vec4(1, 1, 1, 1)));
-	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, 10), glm::vec4(1, 1, 1, 1)));
-	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, 10), glm::vec4(1, 1, 1, 1)));
-	//
-	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(-10, -1, -10), glm::vec4(1, 1, 1, 1)));
-	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, -10), glm::vec4(1, 1, 1, 1)));
-	//	tigl::addVertex(tigl::Vertex::PC(glm::vec3(10, -1, 10), glm::vec4(1, 1, 1, 1)));
-	//
-	//	tigl::end();
 }
 
 void KeyCallback(GLFWwindow*, int key, int, int action, int)
