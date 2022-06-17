@@ -13,7 +13,7 @@ class BulletScript : public Component
 private:
 	std::shared_ptr<Scene> scene;
 	std::shared_ptr<Transform> parentTransform;
-	std::shared_ptr<Transform> SelfTransform;
+	std::shared_ptr<Transform> selfTransform;
 
 	void Update() override;
 

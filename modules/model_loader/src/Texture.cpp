@@ -27,10 +27,10 @@ Texture::Texture(const std::string& fileName)
 	}
 }
 
-void Texture::bind()
+void Texture::bind() const
 {
 	glBindTexture(GL_TEXTURE_2D, id);
-	//tigl::shader->enableTexture(true);
+	// tigl::shader->enableTexture(true);
 }
 
 GLuint Texture::loadTexture(const std::string& texturePath)
@@ -47,7 +47,8 @@ GLuint Texture::loadTexture(const std::string& texturePath)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+	             GL_UNSIGNED_BYTE, imgData);
 	stbi_image_free(imgData);
 
 	return textureId;

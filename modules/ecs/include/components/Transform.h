@@ -35,5 +35,5 @@ public:
 
 	[[nodiscard]] glm::vec3 get2DDirection() const;
 
-	void setRotation(const glm::vec3& rotation);
+	[[maybe_unused]] void setRotation(const glm::vec3& rotation);
 };

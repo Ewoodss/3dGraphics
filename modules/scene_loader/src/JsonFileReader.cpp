@@ -5,7 +5,6 @@
 #include "JsonFileReader.h"
 #include <json.hpp>
 #include <fstream>
-#include <iostream>
 
 std::vector<FileReader::FileGameObject> JsonFileReader::GetFileGameObjects(const std::string& path) const
 {
@@ -13,6 +12,7 @@ std::vector<FileReader::FileGameObject> JsonFileReader::GetFileGameObjects(const
 
 	std::ifstream i(path);
 	nlohmann::json jsonArray;
+
 	i >> jsonArray;
 	for (const auto& item : jsonArray)
 	{

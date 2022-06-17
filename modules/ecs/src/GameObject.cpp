@@ -37,8 +37,3 @@ GameObject::~GameObject()
 {
 	std::cout << "GameObject has been destroyed" << std::endl;
 }
-
-void GameObject::AddComponent(const std::shared_ptr<Component>& component)
-{
-	components.push_back(component);
-}

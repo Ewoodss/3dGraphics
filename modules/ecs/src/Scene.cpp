@@ -55,13 +55,3 @@ InputSystem& Scene::getInputSystem() const
 {
 	return *inputSystem;
 }
-bool Scene::RemoveGameObject(const std::shared_ptr<GameObject>& gameObject)
-{
-	auto itr = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
-	if (itr != gameObjects.end())
-	{
-		gameObjects.erase(itr);
-		return true;
-	}
-	return false;
-}

@@ -23,7 +23,7 @@ const glm::vec3& Transform::getRotation() const
 	return rotation;
 }
 
-void Transform::setRotation(const glm::vec3& newRotation)
+[[maybe_unused]] void Transform::setRotation(const glm::vec3& newRotation)
 {
 	Transform::rotation = newRotation;
 }

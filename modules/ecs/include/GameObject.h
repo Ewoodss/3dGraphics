@@ -35,8 +35,6 @@ public:
 		return component;
 	}
 
-	void AddComponent(const std::shared_ptr<Component>& component);
-
 	template<class T, std::enable_if_t<std::is_base_of<Component, T>::value, bool> = true>
 	[[maybe_unused]] std::shared_ptr<T> FindComponent() const
 	{

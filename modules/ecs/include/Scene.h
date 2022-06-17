@@ -14,7 +14,6 @@
 
 class Scene : public UpdateAble, public DrawAble
 {
-	bool RemoveGameObject(const std::shared_ptr<GameObject>&);
 	std::vector<std::shared_ptr<GameObject>> gameObjects;
 	glm::mat4 viewMatrix;
 	std::shared_ptr<InputSystem> inputSystem;

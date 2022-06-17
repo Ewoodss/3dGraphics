@@ -17,5 +17,5 @@ public:
 
 	[[nodiscard]] GLuint getId() const;
 
-	void bind();
+	void bind() const;
 };
