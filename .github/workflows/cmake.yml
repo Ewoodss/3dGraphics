@@ -23,7 +23,7 @@ jobs:
     - name: Load Submodules
       run: git submodule update --init --recursive
     - name: Install OpenGl dependencies
-      run: sudo apt-get install libgl-dev libxrandr-dev -y
+      run: sudo apt-get install libgl-dev libgl1-mesa-dev libfreetype6-dev libasound2-dev libxrandr-dev libxinerama-dev libxcursor-dev libcurl4-openssl-dev  -y
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
