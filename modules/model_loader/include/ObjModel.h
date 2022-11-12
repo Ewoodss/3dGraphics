@@ -8,8 +8,8 @@
 #include <tigl.h>
 #include <unordered_map>
 #include <vector>
+#include <Texture.h>
 
-class Texture;
 
 class ObjModel
 {
@@ -34,7 +34,7 @@ private:
 		MaterialInfo();
 
 		std::string Name;
-		Texture* Texture;
+		Texture* TexturePtr;
 	};
 
 	class ObjGroup

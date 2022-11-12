@@ -198,7 +198,7 @@ void ObjModel::Draw()
 	{
 		if (group->MaterialIndex != -1)
 		{
-			auto texture = materials[group->MaterialIndex]->Texture;
+			auto texture = materials[group->MaterialIndex]->TexturePtr;
 			if (texture) texture->Bind();
 		}
 
@@ -250,7 +250,7 @@ void ObjModel::LoadMaterialFile(const std::string& fileName, const std::string& 
 			if (currentMaterial != nullptr)
 			{
 				auto textureDir = dirName;
-				currentMaterial->Texture = new Texture(textureDir.append("/").append(tex));
+				currentMaterial->TexturePtr = new Texture(textureDir.append("/").append(tex));
 			}
 		}
 		else if (params[0] == "kd")
@@ -309,7 +309,7 @@ void ObjModel::FillDrawables()
 		drawable.TextureId = -1;
 		if (group->MaterialIndex != -1)
 		{
-			auto texture = materials[group->MaterialIndex]->Texture;
+			auto texture = materials[group->MaterialIndex]->TexturePtr;
 			if (texture) drawable.TextureId = texture->GetId();
 		}
 		drawables.push_back(drawable);
@@ -330,5 +330,5 @@ const std::vector<ObjModel::Drawable>& ObjModel::GetDrawables()
 
 ObjModel::MaterialInfo::MaterialInfo()
 {
-	Texture = nullptr;
+	TexturePtr = nullptr;
 }
