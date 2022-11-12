@@ -50,5 +50,5 @@ if (MSVC)
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ../build)
 else ()
-    add_subdirectory(test)
+#    add_subdirectory(test)
 endif ()

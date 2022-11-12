@@ -77,20 +77,24 @@ static inline std::string CleanLine(std::string line)
 */
 ObjModel::ObjModel(const std::string& fileName)
 {
-	std::cout << "Loading " << fileName << std::endl;
-	std::string dirName = fileName;
+	//print cwd
+	char absPath[1024];
+	realpath(fileName.c_str(), absPath);
+	std::cout << "Loading " << absPath << std::endl;
+	std::string dirName = absPath;
 	if (dirName.rfind('/') != std::string::npos)
 		dirName = dirName.substr(0, dirName.rfind('/'));
 	if (dirName.rfind('\\') != std::string::npos)
 		dirName = dirName.substr(0, dirName.rfind('\\'));
 	if (fileName == dirName)
 		dirName = "";
+	//convert relative path to absolute path
 
-	std::ifstream pFile(fileName.c_str());
+	std::ifstream pFile(absPath);
 
 	if (!pFile.is_open())
 	{
-		std::cout << "Could not open file " << fileName << std::endl;
+		std::cout << "Could not open file " << absPath << std::endl;
 		return;
 	}
 

@@ -1,12 +1,12 @@
-F C:\\Git\\3d graphics\\resource\\models\\steve\\Steve.obj
+F ..\\resource\\models\\steve\\Steve.obj
 L 0.0,0.0,0.0
 R 0.0,0.0,0.0
 S 1.0,1.0,1.0
-F C:\\Git\\3d graphics\\resource\\models\\car\\honda_jazz.obj
+F ..\\resource\\models\\car\\honda_jazz.obj
 L 25.0,0.0,0.0
 R 0.0,0.0,0.0
 S 0.05,0.05,0.05
-F C:\\Git\\3d graphics\\resource\\models\\ship\\shipA_OBJ.obj
+F ..\\resource\\models\\ship\\shipA_OBJ.obj
 L 0.0,10.0,0.0
 R 0.0,0.0,0.0
 S 0.1,0.1,0.1
